@@ -1,8 +1,7 @@
 # java-2
 # 202530116송아인
 2025.03.11 push test
-# java-2
-# 202530116송아인
+
 2025.03.11 push test
 
 2026.03.18
@@ -173,5 +172,129 @@ public class Hello {  // 클래스 정의 시작
         System.out.println(a);  // 문자 출력
         System.out.println("Hello");  // 문자열 출력
         System.out.println(s);  // 계산된 합 출력
+    }
+}
+슬라이드의 텍스트 내용은 다음과 같습니다:
+
+---
+
+# 식별자 (identifier) – 명명 규칙 (Naming Convention)
+
+* **식별자란?** 클래스, 변수, 상수, 메소드 등에 붙이는 이름
+* **식별자의 원칙**
+
+  * `@`, `#`, `!`와 같은 특수 문자, 공백 또는 탭은 식별자로 사용불가. `.``, `$`는 사용 가능
+  * 유니코드 문자 사용 가능. 한글 사용 가능.
+  * 자바 언어의 키워드는 식별자로 사용불가.
+  * 식별자의 첫 번째 문자로 숫자는 사용불가.
+  * `.` 또는 `$`를 식별자 첫 번째 문자로 사용할 수 있으나 일반적으로 잘 사용하지 않는다.
+  * 불린 리터럴 (`true`, `false`)과 널 리터럴 (`null`)은 식별자로 사용불가
+  * 길이 제한 없음
+  * 대소문자 구분: `barChart`와 `barchart`는 다른 식별자
+
+---
+Java의 데이터 타입
+기본 자료형(Primitive Type) 8개: boolean, char, byte, short, int, long, float, double
+기본 타입의 크기는 CPU나 운영체제에 따라 변하지 않음
+논리 타입: boolean (1비트, true 또는 false)
+문자 타입: char (2바이트, Unicode)
+정수 타입:
+byte (1바이트, -128~127)
+short (2바이트, -32768~32767)
+int (4바이트, -2³¹~2³¹-1)
+long (8바이트, -2⁶³~2⁶³-1)
+실수 타입:
+float (4바이트, -3.4E38~3.4E38)
+double (8바이트, -1.7E308~1.7E308)
+레퍼런스형 1개이며 용도는 다음 3가지: 포인터와 유사한 개념이지만 메모리 주소는 아님.
+클래스(class)에 대한 레퍼런스
+인터페이스(interface)에 대한 레퍼런스
+배열(array)에 대한 레퍼런스
+
+상수 선언
+
+* final 키워드 사용합니다.
+* 선언할 때 초기값 지정합니다.
+* 실행 중 값의 변경은 불가능합니다.
+
+```
+final double PI = 3.141592;
+```
+
+* final : 상수 선언
+* double : 데이터 타입
+* PI : 상수 이름
+* 3.141592 : 초기화
+
+```
+final int LENGTH = 20;
+static final double PI = 3.141592;  // static으로 선언하는 것이 좋습니다. (5장 참조)
+```
+
+
+var 키워드
+
+* Java 10부터 도입 되었습니다.
+* var 키워드는 타입을 생략하고 변수 선언을 할 수 있습니다.
+* 컴파일러가 추론하여 변수 타입을 결정합니다.
+* 변수 선언할 때 초기값이 주지 않으면 컴파일 오류가 발생합니다.
+* var는 지역 변수 선언에만 사용이 가능하고 클래스 필드에서는 사용할 수 없습니다.
+  💡 지역 변수 : 메소드 내부에 선언되는 변수.
+  💡 클래스 필드 : 클래스 내부에 선언되는 변수. 객체가 생성될 때 함께 만들어지는 변수.
+
+⚠️ 다음과 같이 사용하는 것이 좋습니다.
+
+* 기본적으로는 명시적 자료형(int, String, double 등)을 사용하는 것이 좋습니다.
+* 가독성이 유지될 수 있는 경우에 한해서 var를 적절히 활용하는 것이 좋습니다.
+* 특히, 상수를 적극적으로 활용해서 코드의 안정성을 높이는 것이 중요합니다.
+
+예제2-2 : Foo.java
+Foo.java는 var 키워드를 사용하여 변수를 선언하는 예제.
+
+public class Foo {
+    public static void main(String[] args) {
+        var price = 200;        // price는 int 타입으로 결정
+        var name = "신 동욱";     // name은 String 타입으로 결정
+        var pi = 0.14;          // pi는 double 타입으로 결정
+
+        System.out.println("price = " + (price + 1000));
+        System.out.println("name = " + name);
+        System.out.println("pi = " + pi*10);
+    }
+}
+메모리의 구조
+
+힙(heap - FIFO) 영역은 프로그래머가 직접 공간을 할당, 해제하는 메모리 공간입니다.
+Java의 경우 JVM이 담당합니다.
+스택(stack - LIFO) 영역은 프로그램이 자동으로 사용하는 임시 메모리 영역입니다.
+힙이 스택을 침범하는 경우를 힙 오버플로우라 하고,
+스택이 힙을 침범하는 경우를 스택 오버플로우라고 합니다.
+상수 선언
+
+final 키워드 사용합니다.
+선언할 때 초기값 지정합니다.
+실행 중 값의 변경은 불가능합니다.
+final double PI = 3.141592;
+상수 선언
+데이터 타입
+상수 이름
+초기화
+final int LENGTH = 20;
+static final double PI = 3.141592; // static으로 선언하는 것이 좋습니다.(5장 참조)
+
+ * 예제2-3 : Constant23.java
+ * Bar.java는 상수를 사용하여 원의 면적을 계산하는 예제.
+ */
+
+public class Bar {
+
+    public static void main(String[] args) {
+        final double PI = 3.14;  // 원주율을 상수로 선언
+        double radius = 10.2;    // 원의 반지름
+        double circleArea = radius * radius * PI;  // 원의 면적 계산
+
+        // 원의 면적을 화면에 출력한다.
+        System.out.print("반지름 = " + radius + ", ");
+        System.out.println("원의 면적 = " + circleArea);
     }
 }
