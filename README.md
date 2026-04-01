@@ -284,17 +284,516 @@ static final double PI = 3.141592; // static으로 선언하는 것이 좋습니
 
  * 예제2-3 : Constant23.java
  * Bar.java는 상수를 사용하여 원의 면적을 계산하는 예제.
- */
+이미지 내용 텍스트로 정리해줄게!
 
-public class Bar {
+---
 
+**비교 연산, 논리 연산**
+
+* **비교연산자** : 두 개의 값을 비교하여 true / false 결과
+* **논리연산자** : 두 개의 논리 값에 논리 연산. 논리 결과
+
+---
+
+### [비교 연산자]
+
+| 비교 연산자 | 내용                  |
+| ------ | ------------------- |
+| a < b  | a가 b보다 작으면 true     |
+| a > b  | a가 b보다 크면 true      |
+| a <= b | a가 b보다 작거나 같으면 true |
+| a >= b | a가 b보다 크거나 같으면 true |
+| a == b | a가 b와 같으면 true      |
+| a != b | a가 b와 같지 않으면 true   |
+
+---
+
+### [논리 연산자]
+
+| 논리 연산자 | 내용                                    |
+| ------ | ------------------------------------- |
+| !a     | a가 true이면 false, false이면 true         |
+| a ^ b  | a와 b의 XOR 연산. a, b가 같으면 false         |
+| a || b | a와 b의 OR 연산. a와 b 모두 false인 경우만 false |
+| a && b | a와 b의 AND 연산. a와 b 모두 true인 경우만 true  |
+
+
+### [예시]
+
+(age >= 20) && (age < 30)   // 나이(int age)가 20대인 경우
+(c >= 'A') && (c <= 'Z')    // 문자(char c)가 대문자인 경우
+(x >= 0) && (y >= 0) && (x <= 50) && (y <= 50)   // (x,y)가 (0,0)과 (50,50)의 사각형 내에 있음
+
+### [오류 예시]
+20 <= age < 30   // 조건식 문법 오류
+## 조건 연산
+3개의 피연산자로 구성된 삼항(ternary) 연산자
+opr1 ? opr2 : opr3 →
+opr1의 결과가 true면 opr2, false면 opr3
+if-else를 조건연산자로 간결하게 표현 가능
+예시
+int x = 5;
+int y = 3;
+
+int big;
+if (x > y)
+    big = x;
+else
+    big = y;
+
+👉 위 코드를 조건 연산자로 바꾸면
+
+int big = (x > y) ? x : y;
+설명
+(x > y)가 true → x 선택
+false → y 선택
+즉, 둘 중 더 큰 값을 big에 저장
+이미지 내용 텍스트로 정리해줄게!
+## **비트 연산**
+
+* **비트 개념**
+  `byte x = 10;`
+  → x = `00001010` (바이트, 비트 단위로 표현)
+
+
+
+* **비트 논리 연산** : 비트끼리 AND, OR, XOR, NOT 연산
+
+* **비트 시프트 연산** : 비트를 오른쪽이나 왼쪽으로 이동
+
+# 교재에 나와 있는 예는 센서의 예를 제외하면 단순히 연산하는 방법에 대해서만 설명하고 있습니다.
+
+# 연산방법 보다 사용되는 사례를 확인하는 것이 도움이 됩니다.
+
+# 비트 연산이 사용되는 경우
+비트 연산(Bitwise Operations)은 하드웨어 프로그래밍 뿐만 아니라 일반 소프트웨어 개발에서도 여러 가지 용도로 사용됩니다.
+특히 성능이 중요한 경우나 최적화가 필요한 경우에 많이 활용됩니다.
+1. 성능 최적화 및 연산 속도 향상 : 곱셈(*)과 나눗셈(/)보다 비트 연산(<<, >>)이 훨씬 빠름
+int x = 5;
+int result = x << 1;  // 5 * 2 = 10
+System.out.println(result);  // 10
+2. 권한 및 플래그 설정 (비트 마스크) : 여러 개의 상태(flag)를 하나의 int 변수에 저장할 때 사용
+class Permissions {
+    static final int READ = 1;   // 0001
+    static final int WRITE = 2;  // 0010
+    static final int EXEC = 4;   // 0100
+}
+int userPermissions = Permissions.READ | Permissions.WRITE; // 0011 (3)
+
+// 특정 권한 확인
+boolean canWrite = (userPermissions & Permissions.WRITE) != 0;
+
+System.out.println("Can Write: " + canWrite);  // true
+이미지의 텍스트를 아래와 같이 정리했습니다:
+
+### 조건문 - 단순 if 문, if-else 문
+
+#### 단순 if 문
+
+* `if` 조건문 안에 조건식(논리형 변수나 논리 연산)
+* 실행문장이 단일 문장일 경우, `{}` 생략 가능
+
+```java
+if(조건식) {
+    // 실행문장
+}
+```
+
+**예시:**
+
+```java
+if(n2 == 0) {
+    System.out.println("n2는 0입니다.");
+}
+if(score >= 80 && score <= 89) {
+    System.out.println("평균점수입니다.");
+}
+```
+
+#### if-else 문
+
+* 조건식이 `true`면 실행문장1, `false`면 실행문장2 실행
+
+```java
+if(조건식) {
+    // 실행문장1
+} else {
+    // 실행문장2
+}
+```
+
+**예시:**
+
+```java
+if(score >= 90) {
+    System.out.println("합격입니다!");
+} else {
+    System.out.println("불합격입니다.");
+}
+이미지의 텍스트를 아래와 같이 정리했습니다:
+
+---
+
+### switch 문
+
+#### Switch문의 식과 case 문의 값과 비교
+
+* `case`의 비교 값과 일치하면 해당 `case`의 실행문장 수행
+* `break`를 만나면 `switch`문을 벗어남
+* `case`의 비교 값과 일치하는 것이 없으면 `default` 문 실행
+* `default` 문은 선택사항
+
+```java id="thsjf1"
+switch(식) {
+    case 1:
+        // 실행문장 1;
+        break;
+    case 2:
+        // 실행문장 2;
+        break;
+    default:
+        // 실행문장 3;
+}
+```
+
+**예시:**
+
+```java id="6dflv5"
+char grade = 'B';
+switch(grade) {
+    case 'A':
+        System.out.println("우수학생입니다.");
+        break;
+    case 'B':
+        System.out.println("평균학생입니다.");
+        break;
+    case 'C':
+        System.out.println("노력하세요.");
+        break;
+    default:
+        System.out.println("등급외 학생");
+}
+이미지의 텍스트를 아래와 같이 정리했습니다:
+
+---
+
+### switch문에서 break문의 역할
+
+#### switch문 내의 break문
+
+* `break`를 만나면 `switch`문을 벗어남
+* `case` 문에 `break`문이 없다면, 다음 `case`문 계속 실행
+* 언제나 `break`를 만날 때까지 계속 내려가면서 실행
+
+```java id="fyhcb3"
+char grade = 'A';
+switch(grade) {
+    case 'A':
+        System.out.println("90 ~ 100점입니다.");
+        break;
+    case 'B':
+        System.out.println("80 ~ 89점입니다.");
+        break;
+    case 'C':
+        System.out.println("70 ~ 79점입니다.");
+        break;
+}
+```
+
+**결과:**
+
+```
+90 ~ 100점입니다.
+```
+이미지의 텍스트를 아래와 같이 정리했습니다:
+
+---
+
+### case 문의 값
+
+* 문자, 정수, 문자열 리터럴(JDK 1.7부터)만 허용
+* 실수 리터럴은 허용되지 않음
+
+```java id="hysb8f"
+int b;
+switch(b%2) {
+    case 1: // 정수 리터럴 사용 가능
+        break;
+    case 2: // 정수 리터럴 사용 가능
+        break;
+}
+```
+
+```java id="gzhwt6"
+char c;
+switch(c) {
+    case '*': // 문자 리터럴 사용 가능
+        break;
+    case 'a': // 문자 리터럴 사용 가능
+        break;
+}
+```
+
+```java id="7gvl4z"
+String s = "안녕하세요";
+switch(s) {
+    case "예" : // 문자열 리터럴 사용 가능
+        break;
+    case "아니요" : // 문자열 리터럴 사용 가능
+        break;
+}
+```
+
+```java id="nx4q3d"
+int b;
+switch(b) {
+    case a:  // 오류: 변수 사용 안됨
+        break;
+    case a > 3:  // 오류: 수식 입력됨
+        break;
+    case a == 1:  // 오류: 수식 입력됨
+        break;
+}
+이미지의 텍스트를 아래와 같이 정리했습니다:
+
+---
+
+### 반복문
+
+#### 자바 반복문 - for 문, while 문, do-while 문
+
+```java id="m7nk3s"
+for(조건식; 조건식; 반복 후 처리) {
+    // 실행문 ...
+}
+```
+
+**예시 출력 (0부터 9까지 출력):**
+
+```java id="8k45jd"
+for(int i = 0; i < 10; i++) {
+    System.out.print(i);
+}
+```
+
+**출력:**
+
+```
+0123456789
+```
+
+---
+
+#### 예제 3-1: for 문을 이용하여 1부터 10까지 합 출력하기
+
+```java id="5hdfl5"
+public class Ex13ForSample {
     public static void main(String[] args) {
-        final double PI = 3.14;  // 원주율을 상수로 선언
-        double radius = 10.2;    // 원의 반지름
-        double circleArea = radius * radius * PI;  // 원의 면적 계산
-
-        // 원의 면적을 화면에 출력한다.
-        System.out.print("반지름 = " + radius + ", ");
-        System.out.println("원의 면적 = " + circleArea);
+        int i, sum = 0;
+        
+        for (i = 1; i <= 10; i++) {
+            sum += i; // sum = sum + i;
+            if(i != 10) {
+                System.out.print(i + "+");
+            } else {
+                System.out.print(i + "=");
+            }
+        }
+        System.out.print(sum);
     }
 }
+```
+
+**출력:**
+
+```
+1+2+3+4+5+6+7+8+9+10=55
+```
+이미지의 텍스트를 아래와 같이 정리했습니다:
+
+---
+
+### do-while 문
+
+#### do-while 문의 구성과 코드 사례
+
+* 조건식이 **참**인 동안 반복 실행. 작업문은 **한 번** 반드시 실행.
+
+```java id="g8kr35"
+do {
+    // 실행문 ...
+} while(조건식);
+```
+
+**예시 출력 (0부터 9까지 출력):**
+
+```java id="2d9f7b"
+int i = 0;
+do {
+    System.out.print(i);
+    i++;
+} while(i < 10);
+```
+
+**출력:**
+
+```id="d93j0f"
+0123456789
+```
+
+---
+
+#### 예제 3-3: do-while 문을 이용하여 'a'에서 'z'까지 출력하기
+
+```java id="8q73gx"
+public class Ex33DoWhileSample {
+    public static void main(String[] args) {
+        char a = 'a';
+        
+        do {
+            System.out.print(a);
+            a = (char)(a + 1); // 문자 'a'를 하나씩 증가
+        } while(a <= 'z');
+    }
+}
+```
+
+**출력:**
+
+```id="x3hd5y"
+abcdefghijklmnopqrstuvwxyz
+```
+
+---
+이미지의 텍스트를 아래와 같이 정리했습니다:
+
+---
+
+### 중첩 반복문
+
+#### 반복문이 다른 반복문을 내포하는 구조
+
+* **10,000명**의 학생이 있는 **100개** 대학의 모든 학생 성적의 합을 구할 때, `for` 문을 이용한 **이중 중첩 구조**.
+
+```java id="x8k4vb"
+for(int i = 0; i < 100; i++) { // 대학 100개 반복
+    for(int j = 0; j < 10000; j++) { // 학생 10,000명 반복
+        // 학생 성적 합 구하는 코드
+    }
+}
+
+
+#### 예제 3-4: 2중 중첩을 이용한 구구단 출력하기
+
+```java id="x3f9sd"
+public class Ex34NestedLoop {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 9; i++) { // 1단부터 9단까지
+            for (int j = 1; j <= 9; j++) { // 1부터 9까지 곱하기
+                System.out.print(i + "×" + j + "=" + (i * j) + "\t"); // 구구단 출력
+            }
+            System.out.println(); // 한 줄 끝날 때마다 줄 바꿈
+        }
+    }
+}
+```
+
+**출력:**
+
+```id="v7c9ws"
+1×1=1	1×2=2	1×3=3	1×4=4	1×5=5	1×6=6	1×7=7	1×8=8	1×9=9	
+2×1=2	2×2=4	2×3=6	2×4=8	2×5=10	2×6=12	2×7=14	2×8=16	2×9=18	
+
+다음은 이미지 속 내용을 텍스트로 옮긴 것입니다:
+
+---
+
+### continue문
+
+* 반복문을 빠져 나가지 않고, 다음 반복으로 제어 변경.
+* 반복문에서 continue; 문에 의한 분기
+
+---
+
+### 예제 3-5 : continue 문을 이용하여 양수 합 구하기
+
+5개의 정수를 입력 받고 양수 합을 구하여 출력하는 프로그램을 작성하라.
+
+```java
+import java.util.Scanner;
+
+public class Ex35ContinueExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("정수들 5개 입력하세요.");
+        int sum = 0;
+
+        for(int i = 0; i < 5; i++) {
+            int n = scanner.nextInt();
+            if(n <= 0) continue;   // 0이나 음수인 경우 더하지 않고 다음 반복으로 진행
+            else sum += n;         // 양수인 경우 누적
+        }
+
+        System.out.println("양수의 합은 " + sum);
+
+        scanner.close();
+    }
+}
+다음은 이미지 속 내용을 텍스트로 옮긴 것입니다:
+
+---
+
+### break문
+
+* 반복문 하나를 즉시 벗어날 때 사용. 하나의 반복문만 벗어남.
+* 중첩 반복의 경우 안쪽 반복문의 break 문이 실행되면 안쪽 반복문만 벗어남.
+
+---
+
+```java
+for(초기문; 조건식; 반복 후 작업) {
+    ...
+    break;
+    ...
+}
+...
+```
+
+(a) 하나의 반복문을 벗어나는 경우
+
+---
+
+```java
+for(초기문; 조건식; 반복 후 작업) {
+    while(조건식) {
+        ...
+        break;
+        ...
+    }
+    ...
+}
+(b) 중첩 반복에서 안쪽 반복문만 벗어나는 경우
+
+다음은 이미지 속 내용을 텍스트로 옮긴 것입니다:
+
+---
+
+### 자바 배열 (array)
+
+* 인덱스와 인덱스에 대응하는 데이터들로 이루어진 자료 구조로 한 번에 많은 메모리 공간 선언.
+* 같은 타입의 데이터들이 순차적으로 저장되는 공간으로 인덱스를 이용하여 원소 데이터 접근.
+* 반복문을 이용하여 처리하기에 적합한 자료 구조
+* 배열 인덱스 : 0부터 시작
+
+(1) 10개의 정수를 배열로 선언하는 경우
+
+```java
+int[] n = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
+```
+
+(2) 10개의 정수를 구분하여 배열로 선언하는 경우
+
+```java
+int[] n = new int[10];
