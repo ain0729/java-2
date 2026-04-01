@@ -2,6 +2,8 @@
 # 202530116송아인
 2025.03.11 push test
 
+2025.03.11 push test
+
 2026.03.18
 [기계어]
 -0,1의 이진수로 구성된 언어
@@ -282,81 +284,6 @@ static final double PI = 3.141592; // static으로 선언하는 것이 좋습니
 
  * 예제2-3 : Constant23.java
  * Bar.java는 상수를 사용하여 원의 면적을 계산하는 예제.
- */
-
-public class Bar {
-
-    public static void main(String[] args) {
-        final double PI = 3.14;  // 원주율을 상수로 선언
-        double radius = 10.2;    // 원의 반지름
-        double circleArea = radius * radius * PI;  // 원의 면적 계산
-
-        // 원의 면적을 화면에 출력한다.
-        System.out.print("반지름 = " + radius + ", ");
-        System.out.println("원의 면적 = " + circleArea);
-    }
-}
-
-
-**# System.out.print의 종류**
-
-### • System.out.print()
-
-* 기본 출력문으로 줄 바꿈을 하지 않고 한 줄로 출력됩니다.
-* 줄 바꿈을 하려면 개행 문자 `\n (new line)`를 넣어야 합니다.
-
----
-
-### • System.out.println()
-
-* 출력 후 자동으로 줄 바꿈(개행)을 실행합니다.
-* 개행 문자 없이 자동으로 줄 바꿈이 되기 때문에 자주 사용합니다. (print + line)
-
----
-
-### • System.out.printf()
-
-* 형식을 지정(formatting)하여 문자열을 출력할 때 사용합니다.
-* 특히, 값을 특정한 형식(소수점 자리 수, 정렬 등)으로 출력할 때 유용합니다.
-
----
-
-**형식 지정자**
-
-* `%d` : 정수 (Integer)
-  → `System.out.printf("%d", 10);` → 10
-
-* `%f` : 실수 (Float, Double)
-  → `System.out.printf("%.2f", 3.1415);` → 3.14
-
-* `%s` : 문자열 (String)
-  → `System.out.printf("%s", "Hello");` → Hello
-
-* `%c` : 문자 (Character)
-  → `System.out.printf("%c", 'A');` → A
-
-* `%b` : 불리언 (Boolean)
-  → `System.out.printf("%b", true);` → true
-
-타입 변환
-
-특정 데이터 타입의 값을 다른 데이터 타입의 값으로 변환.
-
-자동 타입 변환
-
-컴파일러에 의해 원래의 타입보다 큰 타입으로 자동 변환
-치환문(=)이나 수식 내에서 타입이 일치하지 않을 때
-long m = 25;        // 25는 int 타입 → long 타입으로 자동 변환
-double d = 3.14 * 10;  // 실수 연산 위해 10이 10.0으로 자동 변환
-
-강제 타입 변환
-
-개발자의 의도적 타입 변환
-() 안에 개발자가 명시적으로 타입 변환 지정
-강제 변환은 값 손실 우려
-큰 데이터 타입에서 작은 데이터 타입으로는 변환되지 않습니다.
-int → byte 등은 오류가 발생합니다.
-
 이미지 내용 텍스트로 정리해줄게!
 
 ---
@@ -390,25 +317,70 @@ int → byte 등은 오류가 발생합니다.
 | a || b | a와 b의 OR 연산. a와 b 모두 false인 경우만 false |
 | a && b | a와 b의 AND 연산. a와 b 모두 true인 경우만 true  |
 
----
 
 ### [예시]
 
-```
 (age >= 20) && (age < 30)   // 나이(int age)가 20대인 경우
 (c >= 'A') && (c <= 'Z')    // 문자(char c)가 대문자인 경우
 (x >= 0) && (y >= 0) && (x <= 50) && (y <= 50)   // (x,y)가 (0,0)과 (50,50)의 사각형 내에 있음
-```
-
----
 
 ### [오류 예시]
-
-```
 20 <= age < 30   // 조건식 문법 오류
-```
+## 조건 연산
+3개의 피연산자로 구성된 삼항(ternary) 연산자
+opr1 ? opr2 : opr3 →
+opr1의 결과가 true면 opr2, false면 opr3
+if-else를 조건연산자로 간결하게 표현 가능
+예시
+int x = 5;
+int y = 3;
 
----
+int big;
+if (x > y)
+    big = x;
+else
+    big = y;
 
-필요하면 이해하기 쉽게 예시 더 풀어서 설명도 해줄게!
+👉 위 코드를 조건 연산자로 바꾸면
 
+int big = (x > y) ? x : y;
+설명
+(x > y)가 true → x 선택
+false → y 선택
+즉, 둘 중 더 큰 값을 big에 저장
+이미지 내용 텍스트로 정리해줄게!
+## **비트 연산**
+
+* **비트 개념**
+  `byte x = 10;`
+  → x = `00001010` (바이트, 비트 단위로 표현)
+
+
+
+* **비트 논리 연산** : 비트끼리 AND, OR, XOR, NOT 연산
+
+* **비트 시프트 연산** : 비트를 오른쪽이나 왼쪽으로 이동
+
+# 교재에 나와 있는 예는 센서의 예를 제외하면 단순히 연산하는 방법에 대해서만 설명하고 있습니다.
+
+# 연산방법 보다 사용되는 사례를 확인하는 것이 도움이 됩니다.
+
+# 비트 연산이 사용되는 경우
+비트 연산(Bitwise Operations)은 하드웨어 프로그래밍 뿐만 아니라 일반 소프트웨어 개발에서도 여러 가지 용도로 사용됩니다.
+특히 성능이 중요한 경우나 최적화가 필요한 경우에 많이 활용됩니다.
+1. 성능 최적화 및 연산 속도 향상 : 곱셈(*)과 나눗셈(/)보다 비트 연산(<<, >>)이 훨씬 빠름
+int x = 5;
+int result = x << 1;  // 5 * 2 = 10
+System.out.println(result);  // 10
+2. 권한 및 플래그 설정 (비트 마스크) : 여러 개의 상태(flag)를 하나의 int 변수에 저장할 때 사용
+class Permissions {
+    static final int READ = 1;   // 0001
+    static final int WRITE = 2;  // 0010
+    static final int EXEC = 4;   // 0100
+}
+int userPermissions = Permissions.READ | Permissions.WRITE; // 0011 (3)
+
+// 특정 권한 확인
+boolean canWrite = (userPermissions & Permissions.WRITE) != 0;
+
+System.out.println("Can Write: " + canWrite);  // true
