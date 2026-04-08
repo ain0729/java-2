@@ -3,6 +3,7 @@
  ## 2025.03.11 push test
 ### 자바 프로그래밍 학습 정리 
 
+
 #### 1. **기계어, 어셈블리어, 고급언어**
 
 * **기계어**: 컴퓨터의 CPU가 이해하는 이진수 기반의 언어
@@ -151,8 +152,8 @@ for(int i = 1; i <= 9; i++) {
     }
     System.out.println();
 }
-
-#### 16. **continue와 break 문**
+```
+## 16. **continue와 break 문**
 
 * **continue**: 현재 반복을 건너뛰고 다음 반복으로 진행
 
@@ -169,7 +170,7 @@ for(int i = 0; i < 5; i++) {
     if(i == 3) break;
     System.out.println(i);
 }
-
+```
 #### 17. **자바 배열**
 
 * 같은 타입의 데이터들이 순차적으로 저장되는 자료 구조
@@ -200,3 +201,293 @@ int result = x << 1;  // 5 * 2 = 10
 
 ```java
 int permissions = 1 | 2;  // 읽기, 쓰기 권한
+```
+## 0408
+### 배열의 크기, length 필드
+
+* 자바의 배열은 객체로 처리
+* 배열의 크기는 배열 객체의 length 필드에 저장
+
+```java
+int intArray[];
+intArray = new int[5];
+
+int size = intArray.length;
+// size는 5
+```
+
+(그림 설명)
+intArray → intArray[0] ~ intArray[4]
+int length = 5
+→ 배열 객체
+
+* length 필드를 이용하여 배열의 모든 값을 출력하는 사례
+
+```java
+for(int i=0; i<intArray.length; i++) { // intArray 배열 크기만큼 루프를 돈다.
+    System.out.println(intArray[i]);
+}
+```
+이미지 내용 텍스트화 해줄게:
+
+---
+
+### 함수 호출 시 배열 전달 비교 : C/C++ vs. 자바
+
+* 자바가 C/C++에 비해 배열을 다루기 10배 편한 구조임.
+
+---
+
+#### C/C++ 경우
+
+배열과 크기를 각각 전달 받음
+
+```cpp
+int sum(int x[], int size) {
+    int n, s=0;
+
+    for(n=0; n < size; n++)
+        s += x[n];
+
+    return s;
+}
+```
+
+```cpp
+int a[] = {1,2,3,4,5};
+int n = sum(a, 5);
+```
+
+---
+
+#### 자바 경우
+
+배열만 전달받음
+
+```java
+int sum(int x[]) {
+    int n, s=0;
+
+    for(n=0; n < x.length; n++)
+        s += x[n];
+
+    return s;
+}
+```
+
+```java
+int a[] = {1,2,3,4,5};
+int n = sum(a);
+```
+
+### 배열과 for-each 문
+
+* for-each 문 : 배열이나 나열(enumeration)의 원소를 순차 접근하는데 유용한 for 문
+
+```java
+for(변수 : 배열레퍼런스) {
+    반복작업
+}
+```
+
+---
+
+* for-each 문으로 정수 배열의 합을 구하는 사례
+
+```java
+int [] n = {1,2,3,4,5};
+int sum = 0;
+
+for (int k : n) {
+    sum += k;
+}
+```
+rlPds
+
+```java
+for(int i=0; i<n.length; i++) {
+    int k = n[i];
+    sum += k;
+}
+```
+
+* 반복될 때마다 k는 n[0], n[1], ..., n[4]로 번갈아 설정됨
+
+### 2차원 배열
+#### ● 2차원 배열 선언
+
+```java
+int intArray[][];
+또는
+int[][] intArray;
+```
+
+#### ● 2차원 배열 생성
+
+```java
+intArray = new int[2][5];
+
+int intArray[][] = new int[2][5]; // 배열 선언과 생성 동시
+```
+
+#### ● 2차원 배열의 구조
+
+```java
+int i[][] = new int[2][5];
+
+int size1 = i.length;        // 2
+int size2 = i[0].length;     // 5
+int size3 = i[1].length;     // 5
+```
+
+(구조 설명)
+
+* i는 2개의 행을 가짐
+* 각 행은 길이 5의 배열을 가짐
+
+#### ● 2차원 배열의 length 필드
+
+* `i.length` → 2차원 배열의 행의 개수 (2)
+* `i[n].length` → n번째 행의 열의 개수
+* `i[1].length` → 1번째 행의 열의 개수 (5)
+
+### 2차원 배열의 초기화
+
+* 배열 선언과 동시에 초기화
+
+```java id="ij71kp"
+int intArray[][] = {
+    {0, 1, 2},
+    {3, 4, 5},
+    {6, 7, 8}
+}; // 3x3 배열 생성
+```
+
+```java id="7zb6cc"
+char charArray[][] = {
+    {'a', 'b', 'c'},
+    {'d', 'e', 'f'}
+}; // 2x3 배열 생성
+```
+
+```java id="m8ty0s"
+double doubleArray[][] = {
+    {0.01, 0.02},
+    {0.03, 0.04}
+}; // 2x2 배열 생성
+```
+
+**메소드의 배열 리턴**
+
+* 배열의 레퍼런스만 리턴되며, 배열 전체가 리턴되는 것이 아님
+
+* 메소드의 리턴 타입
+
+  * 리턴하는 배열 타입과 리턴 받는 배열 타입 일치
+  * 리턴 타입에 배열의 크기를 지정하지 않음
+
+---
+
+```java
+int[] makeArray() {
+    int temp[] = new int[4];
+    return temp;
+}
+```
+
+(리턴 타입 / 메소드 이름 / 배열 리턴)
+
+```java
+int[] intArray;
+intArray = makeArray();
+```
+이미지의 텍스트를 옮기면 다음과 같습니다:
+
+---
+
+배열을 리턴 받아 사용하는 과정
+
+마스터 텍스트 스타일 편집
+
+```
+int[] makeArray() {
+    int temp[] = new int[4];
+    return temp;
+}
+```
+
+(1) int[] intArray;
+
+(2) makeArray();  // 메소드 실행
+
+(3) intArray에 temp 값 치환
+
+(4) for(int i=0; i<intArray.length; i++)
+intArray[i] = i;
+
+## 자바의 예외 처리
+
+* 예외(Exception) : 실행 중 오류적이나 결과에 악영향을 미치는 예상치 못한 상황 발생
+  → 자바에서는 실행 중 발생하는 에러를 예외로 처리
+
+* 실행 중 예외가 발생하면 → 자바 플랫폼은 응용프로그램이 예외를 처리하도록 호출
+  → 응용프로그램이 예외를 처리하지 않으면 프로그램 강제 종료 시킴
+
+* 예외 발생 경우 1
+  ✓ 정수를 0으로 나누는 경우
+  ✓ 배열의 크기보다 큰 인덱스로 배열의 원소를 접근하는 경우
+  ✓ 정수를 읽는 코드가 실행되고 있을 때 사용자가 문자를 입력한 경우
+---
+
+## 자바의 예외 처리, try-catch-finally문
+
+* 예외 처리 : 발생한 예외에 대해 개발자가 작성한 프로그램 코드에서 대응하는 것
+* try-catch-finally문 사용. finally 블록은 생략 가능.
+
+```
+try {
+    예외가 발생할 가능성이 있는 실행문 (try 블록)
+}
+catch (처리할 예외 타입 선언) {
+    예외 처리 (catch 블록)
+}
+finally {
+    예외 발생 여부와 상관없이 무조건 실행되는 문장 (finally 블록)
+}
+```
+(생략 가능)
+
+## 자바의 예외 클래스
+
+* 자바는 응용프로그램이 실행 중 오류를 탐지할 수 있도록 많은 예외를 클래스 형태로 제공
+
+| 예외 타입(예외 클래스)                  | 예외 발생 경우                                                                 | 패키지       |
+| ------------------------------ | ------------------------------------------------------------------------ | --------- |
+| ArithmeticException            | 정수를 0으로 나눌 때 발생                                                          | java.lang |
+| NullPointerException           | null 레퍼런스를 참조할 때 발생                                                      | java.lang |
+| ClassCastException             | 변환할 수 없는 타입으로 객체를 변환할 때 발생                                               | java.lang |
+| OutOfMemoryError               | 메모리가 부족한 경우 발생                                                           | java.lang |
+| ArrayIndexOutOfBoundsException | 배열의 범위를 벗어난 접근 시 발생                                                      | java.lang |
+| IllegalArgumentException       | 잘못된 인자 전달 시 발생                                                           | java.lang |
+| IOException                    | 입출력 동작 실패 또는 인터럽트 시 발생                                                   | java.io   |
+| NumberFormatException          | 문자열이 나타내는 숫자와 일치하지 않는 타입의 숫자로 변환 시 발생                                    | java.lang |
+| InputMismatchException         | Scanner 클래스의 nextInt() 등을 호출하여 정수를 입력받고자 했지만, 사용자가 'a' 등과 같이 문자열을 입력한 경우 | java.util |
+
+
+## 예외 클래스 사례
+
+* 배열의 범위를 벗어난 원소를 접근하는 예외 처리
+* ArrayIndexOutOfBoundsException 예외
+
+```java
+int intArray[] = new int[5];
+
+try {
+    intArray[3] = 10;   // 정상 실행
+    intArray[6] = 5;    // 예외 발생 (배열 범위 초과)
+}
+catch (ArrayIndexOutOfBoundsException e) { // 객체 e에 예외 정보가 넘어옴
+    System.out.println("배열의 범위를 초과하여 원소를 접근하였습니다.");
+}
+```
+
