@@ -2,14 +2,556 @@
  # 202530116송아인 
  ## 2025.03.11 push test
 ### 자바 프로그래밍 학습 정리 
+ ## static 멤버를 가진 calc 클래스 작성
+ 전역 함수로 작성하고자 하는 abs,max,min의 3개 함수를 static 메소드를 작성하고 호출 
+
+ ## static 활용
+ 전역 변수와 전역 함수를 만들때 활용
+ 공유 멤버를 만들때:static으로 선언한 멤버는 클래스와 객체들 사이에 공유
+
+ ## static 멤버 사용
+ 클래스 이름으로 접근 가능
+ 객체의 벱머로 접근 가능
+ non-static멤버는 클래스 이름으로 접근 안됨
+    #non-static 모든 객체에 생성
+
+ ## static 멤버의 생성
+ static 멤버는 클래스당 하나만 생성
+ 객체들에 의해 공유됨
+
+## static 멤버
+static 멤버 선언
+``java
+    class static{
+        int n; //non-static 필드
+        void g() //non-static 메소드
+
+        static int m; //static 필드
+        static void i() //static 메소드
+    }
+    ``
+객세 생성과 non-static 멤버의 생성: non-static 멤버는 객체가 생성될때,객체 마다 생긴다.
+객체 마다 n,g()의 non-static 멤버들이 생긴다
+#non-static 모든 객체에 멤버 생성,static은 멤버 공유
+
+## 클래스 접근 지정
+다른 클래스에서 사용하도록 허용할 지 지정
+public 클래스: 다른 모든 클래스에게 접근 허용
+디폴트 클래스: 같은 패키지의 클래스에만 접근 허용
+public class World{ //public 클래스 구성
+    `````
+    ````
+} 
+
+## 접근 지정자
+자바의 접근 지정자 4가지:privatm,poteted,publicm,디폴트 
 
 
-````md id="c8k2pq"
-# java-2
- # 202530116송아인 
- ## 2025.03.11 push test
-### 자바 프로그래밍 학습 정리 
+## 가비지 컬렉션
 
+* JVM이 가비지 자동 회수
+
+✓ 가용 메모리 공간이 일정 이하로 부족해질 때
+✓ 가비지를 수거하여 가용 메모리 공간으로 확보
+
+* 가비지 컬렉터(garbage collector)에 의해 자동 수행
+
+---
+
+* 강제 가비지 컬렉션 수행 : System 또는 Runtime 객체의 gc() 메서드 호출
+
+```java id="6nqv2h"
+System.gc();  // 가비지 컬렉션 작동 요청
+```
+
+* 이 코드는 JVM에 강력한 가비지 컬렉션 요청
+* 그러나 JVM이 가비지 컬렉션 시점을 전적으로 판단
+
+## 가비지의 발생
+객체가 생성 되었을때
+
+## 가비지
+가리키는 레퍼런스가 하나도 없는 객체
+더 이상 접근 할수 없어 사용할수 없게된 메모리
+가비지 컬렉션: 자가 가상 기계의 가비지 컬렉터가 자동으로 가비지 수집,반환 
+## 객체 소멸
+new로 할당 받은 객체와 메모리를 jvm느로 되돌려 주는 행위
+자바는 객체 소멸 연산자 없음
+객체 소멸은 jvmm의 고유 역할
+
+c/c++에서는 할당 받은 객체를 개발자가 프로그램 내에서 삭제 해야함
+c/c++ 의 프로그램 작성을 이렇게 만드는 요인
+자바에서는 사용하지 않는 객체나 배열을 돌려주는 코징 책임으로 부터 개발자 해방
+
+## 객체 치환 시 주의 할점
+객체 치환은 객체 복사가 아니며, 레퍼런스 복사이다
+
+## 메소드 오버로딩
+한 클래스 내에서 두개 이상의 이름이 같은 메소드 작성
+메소드 이릠이 동일해야함
+매개 변수의 개수 혹은 타입이 달라야 함
+리턴 타입은 오보로딩과 관련 없음
+
+## 인자 전달 – 배열이 전달되는 경우
+
+* 배열 레퍼런스만 매개 변수에 전달 : 배열 통째로 전달되지 않음
+* 객체가 전달되는 경우와 동일 : 매개 변수가 실인자의 배열 공유
+
+---
+
+```java id="2x0c6v"
+public class ArrayPassing {
+
+    public static void main(String args[]) {
+        int a[] = {1, 2, 3, 4, 5};
+
+        increase(a);
+
+        for(int i = 0; i < a.length; i++)
+            System.out.print(a[i] + " ");
+    }
+
+    static void increase(int[] array) {
+        for(int i = 0; i < array.length; i++) {
+            array[i]++;
+        }
+    }
+}
+```
+
+---
+
+**실행 결과**
+
+```id="t9slfh"
+2 3 4 5 6
+```
+
+---
+
+**핵심 요약**
+
+* 배열을 전달하면 **값이 아니라 참조(주소)가 복사됨**
+* 따라서 함수 안에서 배열을 수정하면 **원본 배열도 같이 변경됨**
+
+## 인자 전달 – 기본 타입의 값이 전달되는 경우
+
+* 매개 변수가 byte, int, double 등 기본 타입으로 선언되었을 때
+  → 호출자가 건네는 값이 매개 변수에 복사되어 전달. 실 인자 값은 변경되지 않음
+
+---
+
+```java
+public class CallByValue {
+    public static void main(String args[]) {
+        int n = 10;
+
+        increase(n);
+
+        System.out.println(n);
+    }
+
+    static void increase(int n) {
+        n = n + 1;
+    }
+}
+```
+
+---
+
+**실행 결과**
+
+```
+10
+```
+
+---
+
+**동작 과정 설명**
+
+* main() 실행 시작
+  int n = 10;
+
+* increase(n); 호출
+  → 값 복사: n (10) → increase(int n)의 n (10)
+
+* increase(int n) 실행 시작
+  n = n + 1; → n = 11
+
+* increase(int n) 종료
+  (main의 n은 여전히 10)
+
+* System.out.println(n);
+  → 10 출력
+
+## 메소드(Method)
+정의: 메소드는 C/C++의 함수와 동일한 개념입니다.
+
+특징: 자바의 모든 메소드는 반드시 클래스 안에 존재해야 합니다. (이는 객체지향의 캡슐화 원칙에 따릅니다.)
+
+1. 메소드 형식
+이미지 예시 코드를 바탕으로 한 구조 분석입니다.
+
+``Java
+public int getSum(int i, int j) {
+    int sum;
+    sum = i + j;
+    return sum;
+}
+``
+public: 접근 지정자
+
+int: 리턴 타입
+
+getSum: 메소드 이름
+
+(int i, int j): 메소드 인자들 (매개변수)
+
+{ ... }: 메소드 코드 (본문)
+
+2. 주요 구성 요소 설명
+접근 지정자: 다른 클래스에서 해당 메소드에 접근할 수 있는지 여부를 선언합니다.
+
+종류: public, private, protected, 디폴트(접근 지정자 생략 시)
+
+리턴 타입: 메소드가 실행을 마치고 돌려주는(리턴하는) 값의 데이터 타입입니다.
+
+값을 반환하지 않을 때는 void를 사용합니다.
+
+## 객체 배열 선언과 생성 과정
+
+1단계: 배열에 대한 레퍼런스 변수 선언
+코드: Circle[] c;
+
+설명: Circle 객체 배열을 가리킬 참조 변수(Reference Variable) c를 선언합니다. 아직 실제 배열이나 객체는 생성되지 않은 상태입니다.
+
+2단계: 레퍼런스 배열 생성
+코드: c = new Circle[5];
+
+설명: Circle 객체의 주소값(Reference)을 저장할 수 있는 5개짜리 배열 공간을 생성합니다.
+
+참고: 이 단계에서 생성된 c[0] ~ c[4]는 실제 객체가 아니라, 객체를 가리킬 수 있는 '빈 칸(null)' 상태입니다.
+
+3단계: 객체 생성
+코드: ```java
+for(int i=0; i<c.length; i++)
+c[i] = new Circle(i);
+
+설명: 루프를 돌면서 실제 Circle 객체를 생성하여 배열의 각 칸에 대입합니다.
+
+결과:
+
+c[0] → radius=0 인 Circle 객체
+
+c[1] → radius=1 인 Circle 객체
+
+c[2] → radius=2 인 Circle 객체
+
+c[3] → radius=3 인 Circle 객체
+
+c[4] → radius=4 인 Circle 객체
+
+### 객체 배열
+
+* 객체에 대한 레퍼런스 배열
+
+* 자바의 객체 배열 만들기 3단계
+
+  1. 배열 레퍼런스 변수 선언
+  2. 레퍼런스 배열 생성
+  3. 배열의 각 원소 객체 생성
+
+---
+
+```java id="h3l9qk"
+Circle[] c;          // 1. Circle 배열에 대한 레퍼런스 변수 선언
+c = new Circle[5];   // 2. 레퍼런스 배열 생성
+
+for (int i = 0; i < c.length; i++) {   // c.length는 배열의 크기 (5)
+    c[i] = new Circle(i);              // 3. 각 원소 객체 생성
+}
+
+for (int i = 0; i < c.length; i++) {   // 모든 객체의 면적 출력
+    System.out.print((int)(c[i].getArea()) + " ");
+}
+```
+
+---
+
+✔ 핵심 포인트
+
+* `Circle[] c` → 객체 자체가 아니라 **객체를 가리키는 주소 배열**
+* `new Circle[5]` → 객체 5개가 아니라 **빈 칸 5개 (null 상태)**
+* 반드시 `c[i] = new Circle(...)`로 객체 생성해야 사용 가능
+
+---
+
+### 객체 속에서의 this
+
+```java
+public class Circle {
+    int radius;
+
+    public Circle(int radius) {
+        this.radius = radius;
+    }
+
+    void set(int radius) {
+        this.radius = radius;
+    }
+
+    public static void main(String[] args) {
+        Circle ob1 = new Circle(1);
+        Circle ob2 = new Circle(2);
+        Circle ob3 = new Circle(3);
+
+        ob1.set(4);
+        ob2.set(5);
+        ob3.set(6);
+    }
+}
+```
+
+---
+
+(오른쪽 그림 설명)
+
+* `ob1` 객체 → `radius = 4`
+* `ob2` 객체 → `radius = 5`
+* `ob3` 객체 → `radius = 6`
+
+각 객체마다 `this.radius`는 **자기 자신의 radius 값**을 가리킴
+
+---
+
+✔ 핵심 정리
+
+* `this`는 **현재 객체 자기 자신**
+* 같은 메서드를 써도 객체마다 `this`가 다르게 동작함
+
+---
+
+### this 레퍼런스
+
+* 객체 자신에 대한 레퍼런스
+* 컴파일러에 의해 자동 관리, 개발자는 사용하기만 하면 됨
+* `this.멤버` 형태로 멤버를 접근할 때 사용
+
+---
+
+```java
+public class Circle {
+    int radius;
+
+    public Circle() { radius = 1; }
+
+    public Circle(int r) { radius = r; }
+
+    double getArea() {
+        return 3.14 * radius * radius;
+    }
+    ...
+}
+```
+
+=
+
+```java
+public class Circle {
+    int radius;
+
+    public Circle() { this.radius = 1; }
+
+    public Circle(int radius) {
+        this.radius = radius;
+    }
+
+    double getArea() {
+        return 3.14 * this.radius * this.radius;
+    }
+    ...
+}
+```
+
+### 생성자의 종류
+
+* 기본 생성자 (default constructor) :
+  매개 변수 없고, 아무 작업 없이 단순 리턴하는 생성자
+
+```java
+class Circle {
+    public Circle() { } // 기본 생성자
+}
+```
+
+---
+
+* 기본 생성자가 자동 생성되는 경우
+
+✔ 클래스에 생성자가 하나도 선언되어 있지 않을 때
+✔ 컴파일러에 의해 자동 생성됨
+
+```java
+public class Circle {
+    int radius;
+
+    void set(int r) { radius = r; }
+
+    double getArea() { return 3.14 * radius * radius; }
+
+    public static void main(String[] args) {
+        Circle pizza = new Circle();
+        pizza.set(5);
+        System.out.println(pizza.getArea());
+    }
+}
+```
+
+→ 컴파일러에 의해 기본 생성자 자동 생성됨
+
+```java
+public Circle() { }
+```
+
+---
+
+### 생성자의 특징
+
+* 생성자 이름은 클래스 이름과 동일
+* 생성자는 여러 개 작성 가능 (생성자 중복)
+
+```java
+public class Circle {
+    public Circle() { ... } // 매개 변수 없는 생성자
+    public Circle(int r, String n) { ... } // 2개의 매개 변수를 가진 생성자
+}
+```
+
+* 생성자는 객체 생성 시 한 번만 호출
+
+  * 자바에서 객체 생성은 반드시 new 연산자로 함
+
+```java
+Circle pizza = new Circle(10, "자바피자"); // 생성자 Circle(int r, String n) 호출
+Circle donut = new Circle(); // 생성자 Circle() 호출
+```
+
+* 생성자의 목적은 객체 생성 시 초기화
+
+* 생성자는 리턴 타입을 지정할 수 없음
+
+```java
+public void Circle() { ... } // 오류, void도 사용 안 됨
+```
+
+## 생성자 개념과 목적
+● 생성자
+객체가 생성될 때 초기화 목적으로 실행되는 메소드
+객체가 생성되는 순간에 자동 호출
+● 그림 설명
+기본 객체 → 생성자 → 초기화된 객체
+
+(중간 과정)
+
+생성자가 객체의 상태를 설정(초기화)함
+● 요약
+생성자는 객체를 만들 때 자동으로 실행됨
+객체의 초기 상태(값)를 설정하는 역할을 함
+
+## 객체 생성과 활용
+
+### 1. 레퍼런스 변수 선언
+
+```java
+Circle pizza;
+```
+
+---
+
+### 2. 객체 생성
+
+* new 연산자 이용
+
+```java
+pizza = new Circle();
+```
+
+---
+
+### 3. 객체 멤버 접근
+
+* 점(.) 연산자 이용
+
+```java
+pizza.radius = 10;
+area = pizza.getArea();
+```
+
+---
+
+## 오른쪽 그림 단계 설명
+
+### (1)
+
+```java
+Circle pizza;
+```
+
+* Circle 타입의 레퍼런스 변수 pizza 선언
+
+---
+
+### (2)
+
+```java
+pizza = new Circle();
+```
+
+* Circle 객체 생성
+* 객체 메모리에 radius, name, getArea() 포함
+
+---
+
+### (3)
+
+```java
+pizza.radius = 10;
+```
+
+* radius 값 변경 (10)
+
+---
+
+### (4)
+
+```java
+pizza.name = "자바피자";
+```
+
+* name 값 변경 ("자바피자")
+
+---
+
+### (5)
+
+```java
+double area = pizza.getArea();
+```
+
+* getArea() 메소드 실행
+* 계산식:
+
+```java
+return 3.14 * radius * radius;
+```
+
+* 결과:
+
+```java
+area = 314.0
+```
+
+---
 
 ## 자바 클래스 구성
 클래스
@@ -540,3 +1082,4 @@ var price = 200;  // 컴파일러가 자동으로 int로 추론
 * **기계어**: 컴퓨터의 CPU가 이해하는 이진수 기반의 언어
 * **어셈블리어**: 기계어의 명령어를 사람이 이해할 수 있도록 표현한 언어
 * **고급언어**: 사람이 쉽게 이해할 수 있도록 고안된 언어 (예: C,Java)
+                
