@@ -12,7 +12,7 @@ static 메소드는 this 사용불가
 static 메소드는 객체 없이도 사용 가능하므로, this 레퍼런스 사용 할수 없음
 
  ## static 멤버를 가진 calc 클래스 작성
- 전역 함수로 작성하고자 하는 abs,max,min의 3개 함수를 static 메소드를 작성하고 호
+ 전역 함수로 작성하고자 하는 abs,max,min의 3개 함수를 static 메소드를 작성하고 호출
  
  ## static 멤버를 가진 calc 클래스 작성
  전역 함수로 작성하고자 하는 abs,max,min의 3개 함수를 static 메소드를 작성하고 호출 
