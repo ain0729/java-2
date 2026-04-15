@@ -2,6 +2,18 @@
  # 202530116송아인 
  ## 2025.03.11 push test
 ### 자바 프로그래밍 학습 정리 
+
+## final 클래스와 메소드
+final 클래스 - 더이상 클래스 상속 불가능
+final 메소드 - 더 이상 오버라이딩 불가능
+## static 제약 조건
+static 메소드는 오직 static 멤버만 접근 가능
+static 메소드는 this 사용불가
+static 메소드는 객체 없이도 사용 가능하므로, this 레퍼런스 사용 할수 없음
+
+ ## static 멤버를 가진 calc 클래스 작성
+ 전역 함수로 작성하고자 하는 abs,max,min의 3개 함수를 static 메소드를 작성하고 호
+ 
  ## static 멤버를 가진 calc 클래스 작성
  전역 함수로 작성하고자 하는 abs,max,min의 3개 함수를 static 메소드를 작성하고 호출 
 
