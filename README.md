@@ -3,28 +3,453 @@
  ## 2025.03.11 push test
 ### 자바 프로그래밍 학습 정리 
 
+## 자바의 패키지와 모듈이랑?
+자바에서 **패키지(package)**와 **모듈(module)**은 코드를 구조화하고 관리하기 위한 개념인데, 서로 역할과 범위가 달라요.
+
+---
+
+## 🔹 패키지 (Package)
+
+* **정의**: 서로 관련된 클래스와 인터페이스를 묶어 놓은 폴더(디렉터리) 개념
+
+* **목적**:
+
+  * 코드 구조를 정리하고 관리하기 쉽게 함
+  * 클래스 이름 충돌 방지 (같은 이름의 클래스라도 패키지가 다르면 공존 가능)
+  * 접근 제어(접근 제한자)와 함께 캡슐화 지원
+
+* **예시**:
+
+```java
+package com.example.util;
+
+public class MathUtil {
+    public static int add(int a, int b) {
+        return a + b;
+    }
+}
+```
+
+* **특징**:
+
+  * 계층 구조 가능 (`com.example.util`)
+  * `import` 문으로 다른 패키지의 클래스 사용 가능
+
+---
+
+## 🔹 모듈 (Module)
+
+* **정의**: 여러 패키지를 묶어서 하나의 독립적인 단위로 관리하는 개념 (Java 9부터 도입)
+
+* **목적**:
+
+  * 애플리케이션을 더 크게 나누어 관리
+  * **강력한 캡슐화** 제공 (어떤 패키지를 외부에 공개할지 명시)
+  * 의존성 관리 (어떤 모듈을 사용하는지 선언)
+
+* **구성 파일**: `module-info.java`
+
+* **예시**:
+
+```java
+module com.example.myapp {
+    exports com.example.util;
+    requires java.base;
+}
+```
+
+* **특징**:
+
+  * `exports`: 외부에 공개할 패키지 지정
+  * `requires`: 의존하는 다른 모듈 선언
+  * 패키지보다 더 큰 단위
+
+---
+
+## 🔸 패키지 vs 모듈 정리
+
+| 구분    | 패키지          | 모듈              |
+| ----- | ------------ | --------------- |
+| 범위    | 클래스/인터페이스 묶음 | 패키지 묶음          |
+| 도입 시기 | 초기 자바부터      | Java 9          |
+| 역할    | 코드 정리        | 시스템 구조 및 의존성 관리 |
+| 캡슐화   | 제한적          | 강력 (export로 제어) |
+
+---
+
+## ✔ 한 줄 정리
+
+* **패키지**: 클래스들을 묶는 단위
+* **모듈**: 패키지들을 묶고, 외부 공개와 의존성을 관리하는 단위
+
+
+## 패키지 개념과 필요성
+* 3명이 분담하여 자바 응용 프로그램을 개발하는경우,동일한 이름의 클래스가 존재할 가능성 있음
+
+## 인터페이스 구성 요소
+[인터페이스 구성 요소들]
+* 상수:public만 허용,public statric final 생략
+* 추상 메소드: public avstratct만 사용 가능 
+
+## 자바의 인터페이스
+* 소프트 웨어를 규격화 된 모듈로 만들고,인터페이스가 맞는 모듈로
+
+## 추상 클래스의 목적
+
+추상 클래스의 목적
+상속을 위한 슈퍼 클래스로 활용하는 것
+서브 클래스에서 추상 메소드 구현
+다형성 실현
+class Shape {
+    public void draw() {
+        System.out.println("Shape");
+    }
+}
+
+→ (X 표시) 추상 클래스로 작성
+
+abstract class Shape {
+    public abstract void draw();
+}
+
+(설명) 추상 클래스를 상속받아 추상 메소드 draw() 구현
+
+class Line extends DObject {
+    @Override
+    public void draw() {
+        System.out.println("Line");
+    }
+}
+class Rect extends DObject {
+    @Override
+    public void draw() {
+        System.out.println("Rect");
+    }
+}
+class Circle extends DObject {
+    @Override
+    public void draw() {
+        System.out.println("Circle");
+    }
+}
+
+## 추상 클래스의 상속과 구현
+
+**추상 클래스 상속**
+
+* 추상 클래스를 상속받으면 추상 클래스가 됨
+* 서브 클래스도 abstract로 선언해야 함
+
+```id="a3z2k1"
+abstract class A { // 추상 클래스
+    abstract public int add(int x, int y); // 추상 메소드
+}
+
+abstract class B extends A { // 추상 클래스
+    public void show() { System.out.println("B"); }
+}
+```
+
+```id="p9x8m2"
+A a = new A(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+B b = new B(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+```
+
+---
+
+**추상 클래스 구현**
+
+* 서브 클래스에서 슈퍼 클래스의 추상 메소드 구현 (오버라이딩)
+* 추상 클래스를 구현한 서브 클래스는 추상 클래스 아님
+
+```id="k7d4q9"
+class C extends A { // 추상 클래스 구현. (=> 정상 클래스)
+    public int add(int x, int y) { return x + y; } // 추상 메소드 구현. 오버라이딩
+    public void show() { System.out.println("C"); }
+}
+
+...
+C c = new C(); // 정상
+```
+
+---
+
+
+## 추상 클래스의 인스턴스 생성 불가**
+
+* 추상 클래스는 온전한 클래스가 아니기 때문에 인스턴스를 생성할 수 없음
+
+```
+JComponent p;      // 오류 없음. 추상 클래스의 레퍼런스 선언
+
+p = new JComponent();   // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+
+Shape obj = new Shape();   // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+```
+
+컴파일 오류 메시지
+→ **Unresolved compilation problem: Cannot instantiate the type Shape**
+
+## 추상 클래스
+
+* **추상 메소드(abstract method)**
+  : abstract로 선언된 메소드, 메소드의 코드는 없고 원형만 선언
+
+```java
+abstract public String getName(); // 추상 메소드
+abstract public String fail() { return "Good Bye"; } // 추상 메소드 아님, 컴파일 오류
+```
+
+---
+
+* **추상 클래스(abstract class)**
+
+  * 추상 메소드를 가지며, abstract로 선언된 클래스
+  * 추상 메소드 없이, abstract로 선언한 클래스
+
+```java
+// 추상 메소드를 가진 추상 클래스
+abstract class Shape {
+    public Shape() { ... }
+    public void edit() { ... }
+
+    abstract public void draw(); // 추상 메소드
+}
+```
+
+```java
+// 추상 메소드 없는 추상 클래스
+abstract class JComponent {
+    String name;
+    public void load(String name) {
+        this.name = name;
+    }
+}
+```
+
+---
+
+```java
+class fault { // 오류. 추상 메소드를 가지고 있으므로 abstract로 선언되어야 함
+    abstract public void f(); // 추상 메소드
+}
+```
+
+## 오버라이딩의 목적,다형성 실현
+* 오버라이딩아로 다형성 실현
+* 하나의 인터페이스(같은이름)에 서로 다른 구현
+* 슈퍼 클래스의 메소드를 서브 클래스에서 각각 목적에 맞게 다르게 구현
+* 사례:super()
+
+## 서브 클래스 객체와 오버라이딩된 메소드 호출
+
+## 메소드 오버라이딩(Method Overriding)의 개념
+
+* 서브 클래스에서 슈퍼 클래스의 메소드 중복 작성
+
+* 슈퍼 클래스의 메소드 무력화, 항상 서브 클래스에 오버라이딩한 메소드가 실행되도록 보장됨
+
+* "메소드 무시하기"로 번역되기도 함
+
+* 오버라이딩 조건
+  → 슈퍼 클래스 메소드의 원형(메소드 이름, 인자 타입 및 개수, 리턴 타입) 동일하게 작성
+
+## 다운캐스팅(downcasting)
+
+* 슈퍼 클래스 레퍼런스를 서브 클래스 레퍼런스에 대입
+
+* 업캐스팅 된 것을 다시 원래대로 되돌리는 것
+
+* 반드시 명시적 타입 변환 지정
+
+* 다운캐스팅 사례
+
+```java
+public class DowncastingEx {
+
+    public static void main(String[] args) {
+        Person p = new Student("이재문"); // 업캐스팅
+        Student s;
+
+        s = (Student)p; // 다운캐스팅
+
+        System.out.println(s.name); // 오류 없음
+        s.grade = "A"; // 오류 없음
+    }
+}
+```
+
+(오른쪽 코드)
+
+```java
+class Person { }
+class Student extends Person { }
+
+Person p = new Student("이재문"); // 업캐스팅
+
+Student s = (Student)p; // 다운캐스팅, 강제타입변환
+```
+
+## 업케스팅(upcasting)개념
+# 하위 클래스의 레퍼런스는 상위 클래스를 가리킬 수 없지만, 상위 클래스의 레퍼런스는 하위 클래스를 가리킬 수 있다는 설명.
+* 생물이 들어가는 박스에 사람이나 코끼리를 넣어도 무방.
+* 사람이나 코끼리 모두 생물을 상속받았기 때문.
+* 업캐스팅(upcasting) 이란?
+- 서브 클래스의 레퍼런스를 슈퍼 클래스 레퍼런스에 대입
+- 슈퍼 클래스 레퍼런스로 서브 클래스 객체를 가리키게 되는 현상
+
+class Person { } // 슈퍼 클래스
+class Student extends Person { }
+
+Person p;
+Student s = new Student();
+p = s; // 업캐스팅
+
+(오른쪽 설명)
+
+슈퍼클래스 레퍼런스로 객체 내의 슈퍼 클래스의 멤버만 접근 가능
+p.grade = "A"; // grade는 Person의 멤버가 아니므로 컴파일 오류
+
+## 서브 클래스와 슈퍼 클래스의 생성자 선택
+* 슈퍼 클래스와 서브 클래스 : 각각 여러개의 생성자 작성 가능
+* 서브 클래스의 객체가 생성 될때: 슈퍼 클래스 생성자 1개와 서브     클래스 생성자 1개가 실행
+* 서브 클래스의 생성자와 슈퍼 클래스의 생성작 결정 되는 방식
+1. 개발자의 명시적 선택
+    * 서브 클래스 개발자가 슈퍼 클래스의 생성자가 명시적 선택
+    * super() 키워드 이용하여 선택
+2. 컴파일러가 기본 생성자 선택
+    * 서브 클래스 개발자가 슈퍼 클래스 생성자를 선택하지 않는 경우
+    * 컴파일러가 자동으로 슈퍼 클래스의 기본 생성자 선택
+
+## 슈퍼 클래스 멤버의 접근 지정자
+
+## 슈퍼 클래스의 멤버에 대한 서브 클래스의 접근
+* 슈퍼 클래스 private멤버:서브 클래스에서 접근할수 없음
+* 슈퍼 클래스의 디폴트 멤버:서브 클래스가 도오인한 패키지가 있을떼, 접근 가능
+* 슈퍼 클래스의 public멤버
+
+## 자바 상속의 특징
+* 클래스 다중 상속(multiple inheritance) 불허
+* 하나의 클래스가 둘 이상의 부모 클래스를 동시에 상속받는 것을 말합니다.
+
+✓ C++는 다중 상속 가능
+
+✓ C++는 다중 상속으로 멤버가 중복 생성되는 문제 있음. (다이아몬드 상속)
+
+* 부모 클래스 간에 계층적 관계가 있을 경우, 중복된 멤버가 생성될 수 있습니다.
+* 모호성(Ambiguity) 문제 : 두 부모 클래스에 동일한 이름의 멤버(변수나 함수)가 존재할 경우, 어떤 부모의 멤버를 호출해야 할지 모호해집니다.
+
+* 자바는 인터페이스(interface)의 다중 상속 허용.
+
+* 다중 상속과 유사한 기능을 제공합니다.
+모든 자바 클래스는 묵시적으로 Object 클래스를 상속받음
+
+✓ java.lang.Object는 클래스는 모든 클래스의 슈퍼 클래스
+
+## 서브 클래스에서 슈퍼 클래스 멤버 접근 
+
+## 서버 클래스 객체 모양
+슈퍼 클래스와
+
+**클래스 상속과 객체**
+
+* 상속 선언 : extends 키워드 사용
+* 부모 클래스를 물려받아 자식 클래스를 확장한다는 의미
+* 부모 클래스 → 슈퍼 클래스(super class)
+* 자식 클래스 → 서브 클래스(sub class)
+
+```id="h0mx8e"
+class Point {
+    int x, y;
+    ...
+}
+
+// Point를 상속받는 ColorPoint 클래스 선언
+class ColorPoint extends Point {
+    ...
+}
+```
+
+(서브 클래스 / 슈퍼 클래스 표시됨)
+
+* ColorPoint는 Point를 물려 받으므로, Point에 선언된 필드와 메소드 선언 필요 없음
+
+## 상속(inheritance)의 필요성
+
+* 상속이 없는 경우 중복된 멤버를 가진 4개의 클래스
+
+```
+class Student
+- 말하기
+- 먹기
+- 걷기
+- 잠자기
+- 공부하기
+
+class StudentWorker
+- 말하기
+- 먹기
+- 걷기
+- 잠자기
+- 공부하기
+- 일하기
+
+class Researcher
+- 말하기
+- 먹기
+- 걷기
+- 잠자기
+- 연구하기
+
+class Professor
+- 말하기
+- 먹기
+- 걷기
+- 잠자기
+- 연구하기
+- 가르치기
+```
+
+---
+
+* 상속을 이용한 경우 중복이 제거되고 간결해진 클래스 구조
+
+```
+class Person
+- 말하기
+- 먹기
+- 걷기
+- 잠자기
+
+class Student extends Person
+- 공부하기
+
+class Researcher extends Person
+- 연구하기
+
+class StudentWorker extends Student
+- 일하기
+
+class Professor extends Researcher
+- 가르치기
+```
+
+(공통 기능은 Person 클래스에 작성)
+
+
+## final 필드
+final 필드: 상수를 선언할때 사용
+상수 필드는 선언 시에 초기 값을 지정하여야 한다
+상수 필드는 실행 중에 값을 변경할수 없다
+
 ## final 클래스와 메소드
 final 클래스 - 더이상 클래스 상속 불가능
 final 메소드 - 더 이상 오버라이딩 불가능
-
 ## static 제약 조건
 static 메소드는 오직 static 멤버만 접근 가능
 static 메소드는 this 사용불가
 static 메소드는 객체 없이도 사용 가능하므로, this 레퍼런스 사용 할수 없음
 
- ## static 멤버를 가진 calc 클래스 작성
- 전역 함수로 작성하고자 하는 abs,max,min의 3개 함수를 static 메소드를 작성하고 호
-## final 클래스와 메소드
-final 클래스 - 더이상 클래스 상속 불가능
-final 메소드 - 더 이상 오버라이딩 불가능
-## static 제약 조건
-static 메소드는 오직 static 멤버만 접근 가능
-static 메소드는 this 사용불가
-static 메소드는 객체 없이도 사용 가능하므로, this 레퍼런스 사용 할수 없음
-
- ## static 멤버를 가진 calc 클래스 작성
- 전역 함수로 작성하고자 하는 abs,max,min의 3개 함수를 static 메소드를 작성하고 호출
- 
  ## static 멤버를 가진 calc 클래스 작성
  전역 함수로 작성하고자 하는 abs,max,min의 3개 함수를 static 메소드를 작성하고 호출 
 
@@ -1105,4 +1530,6 @@ var price = 200;  // 컴파일러가 자동으로 int로 추론
 * **기계어**: 컴퓨터의 CPU가 이해하는 이진수 기반의 언어
 * **어셈블리어**: 기계어의 명령어를 사람이 이해할 수 있도록 표현한 언어
 * **고급언어**: 사람이 쉽게 이해할 수 있도록 고안된 언어 (예: C,Java)
+                                                                                   
+
                 
