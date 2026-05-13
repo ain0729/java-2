@@ -3,6 +3,70 @@
  ## 2025.03.11 push test
 ### 자바 프로그래밍 학습 정리 
 
+### 배치 관리자가 없는 컨테이너 (Absolute Positioning)
+
+배치 관리자를 제거하면 개발자가 컴포넌트의 좌표($x$, $y$)와 크기($width$, $height$)를 직접 지정해야 합니다.
+
+#### 1. 필요한 경우
+
+* 컴포넌트의 크기나 위치를 개발자가 임의로 결정하고자 하는 경우
+* 게임 프로그램처럼 시간이나 마우스/키보드 입력에 따라 위치와 크기가 수시로 변하는 경우
+* 여러 컴포넌트를 서로 겹쳐서 출력하고자 하는 경우
+
+#### 2. 배치 관리자 제거 방법
+
+* `container.setLayout(null);` 코드를 사용합니다.
+* 예시: `JPanel p = new JPanel(); p.setLayout(null);`
+
+#### 3. 제거 시 주의사항
+
+* 배치 관리자가 없어지면 컴포넌트에 대한 자동 배치가 수행되지 않습니다.
+* 추가된 컴포넌트의 크기가 기본적으로 **0**으로 설정되며, 위치를 알 수 없게 되어 화면에 보이지 않습니다.
+* 따라서 반드시 `setSize()`, `setLocation()` 또는 `setBounds()` 메소드를 사용하여 **크기와 위치를 수동으로 지정**해야 합니다.
+
+---
+
+### 💻 EX16.java (절대 배치 예제)
+
+파일 이름을 `EX16.java`로 유지하면서, 버튼을 직접 원하는 위치에 배치하는 코드입니다.
+
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class EX16 extends JFrame {
+    public EX16() {
+        setTitle("절대 배치 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        Container contentPane = getContentPane();
+
+        // 1. 배치 관리자 삭제
+        contentPane.setLayout(null); 
+
+        // 2. 버튼 생성 및 절대 위치/크기 지정
+        JButton b = new JButton("Click");
+        b.setLocation(50, 50); // x=50, y=50 위치
+        b.setSize(100, 30);    // 폭=100, 높이=30
+        contentPane.add(b);    // 컨텐트팬에 부착
+
+        // 3. 반복문을 이용한 배치 (겹치기 가능)
+        for(int i=1; i<=5; i++) {
+            JButton btn = new JButton(Integer.toString(i));
+            btn.setBounds(i*15, i*15, 50, 20); // x, y, width, height를 한 번에 설정
+            contentPane.add(btn);
+        }
+
+        setSize(300, 200);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new EX16();
+    }
+}
+
+```
 
 ##  GridLayout 생성자 상세
 
