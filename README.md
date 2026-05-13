@@ -3,6 +3,261 @@
  ## 2025.03.11 push test
 ### 자바 프로그래밍 학습 정리 
 
+## # 현재 권장 JDK
+
+* 2026년 기준, JDK는 Java 17 또는 Java 21 (LTS 버전) 사용이 권장됩니다.
+
+* 신규 프로젝트는 21, 기존 레거시 시스템은 17이나 11을 주로 사용합니다.
+
+* Java 8은 지원 종료 시점(2026년 11월)이 가까워 전환이 필요합니다.
+
+---
+
+🚨 JDK 1.5는 2004년도에 릴리즈된 버전입니다. 공식 지원도 끝난 상태입니다.
+
+🚨 교재에서 소개하는 1.5 이전의 방법으로 코딩하는 것은 검토할 가치가 없습니다.
+
+---
+
+현재 본인의 jdk 버전을 확인해 보세요.
+
+```bash id="r7n3kq"
+java --version
+```
+
+예시 출력:
+
+```bash id="z2m6df"
+openjdk 25.0.2 2026-01-20 LTS
+OpenJDK Runtime Environment Temurin-25.0.2+10 (build 25.0.2+10-LTS)
+OpenJDK 64-Bit Server VM Temurin-25.0.2+10 (build 25.0.2+10-LTS, mixed mode, sharing)
+```
+
+[Java Version History](https://en.wikipedia.org/wiki/Java_version_history?utm_source=chatgpt.com)
+
+
+## # Tip. 컨텐트팬에 대한 JDK 1.5 이후의 추가 사항
+
+## JDK 1.5 이전
+
+* 프레임의 컨텐트팬을 알아내어, 반드시 컨텐트팬에 컴포넌트 부착
+
+```java id="8j9m3r"
+Container c = frame.getContentPane();
+
+c.add(new JButton("Click")); // 컨텐트팬에 직접 컴포넌트 부착
+```
+
+---
+
+## JDK 1.5 이후 추가 사항
+
+* 프레임에 컴포넌트를 부착하면 프레임이 대신 컨텐트팬에 부착
+
+```java id="1v7c6q"
+frame.add(new JButton("Click"));
+
+// 프레임이 버튼 컴포넌트를 컨텐트팬에 대신 부착
+```
+
+---
+
+## 저자의 결론
+
+* JDK1.5 이전처럼 직접 컨텐트팬에 컴포넌트를 부착하는 것이 바람직함
+* 컨텐트팬 다루기 능력이 필요하기 때문
+* 컴포넌트의 부모가 프레임이 아닌, 컨텐트팬임을 알고 명확히 사용할 필요
+
+---
+
+# 정리
+
+* 1.5 이후 추가된 기능을 사용하는 것이 가독성이 좋음
+* 하지만 Content Pane을 다루는 능력이 반드시 필요 없는 것은 아님
+
+
+## # 프레임에 컴포넌트 붙이기
+
+* 타이틀 달기
+
+  * `super()`나 `setTitle()` 이용
+
+```java id="d0y1n4"
+MyFrame() { // 생성자
+    super("타이틀문자열");
+}
+```
+
+```java id="2p3bd2"
+MyFrame() { // 생성자
+    setTitle("타이틀문자열");
+}
+```
+
+---
+
+* 컨텐트팬에 컴포넌트 달기
+
+  * 컨텐트팬이란?
+    스윙 컴포넌트들이 부착되는 공간
+
+  * 컨텐트팬 알아내기 :
+    스윙 프레임에 붙은 디폴트 컨텐트팬 알아내기
+
+```java id="b5g2ln"
+public class MyFrame extends JFrame {
+
+    MyFrame() {
+
+        // 프레임의 컨텐트팬을 알아낸다.
+        Container contentPane = getContentPane();
+    }
+    ...
+}
+```
+
+---
+
+* 컨텐트팬에 컴포넌트 붙이기
+
+```java id="v4q3kp"
+// 버튼 컴포넌트 생성
+JButton button = new JButton("Click");
+
+// 컨텐트팬에 버튼 부착
+contentPane.add(button);
+```
+
+---
+
+* 컨텐트팬 변경
+
+```java id="7r95g4"
+class MyPanel extends JPanel {
+    // JPanel을 상속받은 패널을 구현한다.
+}
+
+// frame의 컨텐트팬을 MyPanel 객체로 변경
+frame.setContentPane(new MyPanel());
+```
+
+## ## Swing 응용프로그램에서 main()의 기능과 위치
+
+* 스윙 응용프로그램에서 main()의 기능 최소화 바람직
+
+  * 스윙 응용프로그램이 실행되는 시작점으로서의 기능만
+  * 스윙 프레임을 생성하는 정도의 코드로 최소화
+
+```java
+public static void main(String[] args) {
+    MyFrame frame = new MyFrame(); // 스윙 프레임 생성
+}
+```
+
+---
+
+# frame 객체를 생성하고 사용하지 않기 때문에 worrying이 발생합니다.
+
+# 실무에서는 다음과 같이 코딩하는 것이 일반적입니다.
+
+```java
+public static void main(String[] args) {
+    javax.swing.SwingUtilities.invokeLater(() -> {
+        new Ex81MyFrame(); // EDT에서 프레임 생성
+    });
+}
+```
+
+```java
+public static void main(String[] args) {
+    new MyFrame(); // 스윙 프레임 생성
+}
+```
+
+
+## 프레임 만들기,JFraim 클래스 상속
+스윙 프레임
+* JFram 클래스를 상속 받은 클래스 작성
+* 프레임의 크기 반드시 지정:setSize()호출
+* 프레임을 화면에 출력하는 코드 반드시 필요:setVisible(true)호출
+
+## Swing 프레임
+스윙 프레임:모든 스윙 컴포넌트를 담는 최상위 컨테이너
+JFraim을 상속 받아 구현
+컴포넌트들은 화면에 보이려면 스윙 프레임에 부착되어야 함
+프레임 닫으려면 프레임에 부착된 모든 컴포넌트가 보이지 않게 됨
+스윙 프레임 기본 구성
+프레임:스윙 프로그램의 기본 틀
+메뉴바:
+
+## Swing GUI  프로그램 만들기
+스윙 GUI 프로그램을 만드는 과정
+1.스윙 프레임 만들기
+2.main()
+
+## 컨테이너와 컴포넌트 포함 관계
+최상위 컨테이너를 바닥에 깔고 그 위에서 컨테이너를 놓고, 다시 컴포 넌트를 쌓아 가는 방식, 즉 레고 블록으 쌓는듯이 GUI 프로그램을 작성 한다
+
+## 컨테이너와 컴포넌트
+
+• 컨테이너
+
+* 다른 컴포넌트를 포함할 수 있는 GUI 컴포넌트 : java.awt.Container를 상속받음
+* 다른 컨테이너에 포함될 수 있음
+* AWT 컨테이너 : Panel, Frame, Applet, Dialog, Window
+* Swing 컨테이너 : JPanel, JFrame, JApplet, JDialog, JWindow
+
+• 컴포넌트
+
+* 컨테이너에 포함되어야 화면에 출력될 수 있는 GUI 객체
+* 다른 컴포넌트를 포함할 수 없는 순수 컴포넌트
+* 모든 GUI 컴포넌트가 상속받는 클래스 : java.awt.Component
+* 스윙 컴포넌트가 상속받는 클래스 : javax.swing.JComponent
+
+• 최상위 컨테이너
+
+* 다른 컨테이너에 포함되지 않고도 화면에 출력되며, 독립적으로 존재 가능한 컨테이너
+* 스스로 화면에 자신을 출력하는 컨테이너 : JFrame, JDialog, JApplet
+
+## GUI 패키지 게층 구조
+AWT 클래스
+Swing 클래스
+
+## [ Swing 패키지 ]
+
+• AWT 기술을 기반으로 작성된 자바 라이브러리
+
+• 모든 AWT 기능 + 추가된 풍부하고 화려한 고급 컴포넌트
+
+• AWT 컴포넌트를 모두 스윙으로 재작성.
+
+• AWT 컴포넌트 이름 앞에 J자를 덧붙임
+
+• 순수 자바 언어로 구현
+
+• 스윙 컴포넌트는 경량 컴포넌트(light weight component)
+
+• 스윙 컴포넌트는 운영체제의 도움을 받지 않고, 직접 그리기 때문에 운영체제에 부담주지 않음
+
+• 현재 자바의 GUI 표준으로 사용됨
+
+## 자바의 GUI(Graphical User Interface)
+
+• GUI : 사용자가 편리하게 입출력 할 수 있도록 그래픽으로 화면을 구성하고, 마우스나 키보드로 입력 받을 수 있도록 지원하는 사용자 인터페이스
+
+• 자바 언어에서 GUI 응용프로그램 작성 : AWT와 Swing 패키지에 강력한 GUI 컴포넌트 제공.
+
+[ AWT(Abstract Windowing Toolkit) 패키지 ]
+
+• 자바가 처음 나왔을 때부터 배포된 GUI 패키지, 최근에는 거의 사용하지 않음
+
+• AWT 컴포넌트는 중량 컴포넌트(heavy weight component)
+
+• AWT 컴포넌트의 그리기는 운영체제에 의해 이루어지며, 운영체제의 자원을 많이 소모하고 부담을 줌
+
+• 운영체제가 직접 그리기 때문에 속도는 빠름
+
+
 ## 자바의 패키지와 모듈이랑?
 자바에서 **패키지(package)**와 **모듈(module)**은 코드를 구조화하고 관리하기 위한 개념인데, 서로 역할과 범위가 달라요.
 
@@ -1532,4 +1787,3 @@ var price = 200;  // 컴파일러가 자동으로 int로 추론
 * **고급언어**: 사람이 쉽게 이해할 수 있도록 고안된 언어 (예: C,Java)
                                                                                    
 
-                
