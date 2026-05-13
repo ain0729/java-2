@@ -3,6 +3,189 @@
  ## 2025.03.11 push test
 ### 자바 프로그래밍 학습 정리 
 
+
+##  GridLayout 생성자 상세
+
+`GridLayout`은 컨테이너를 격자판 모양으로 나누어 컴포넌트를 배치할 때 사용하며, 다음과 같은 생성자들을 제공합니다.
+
+### 1. 생성자 종류
+
+* **`GridLayout()`**: 기본 생성자로, 행과 열의 수를 정하지 않고 컴포넌트가 추가되는 대로 배치합니다.
+* **`GridLayout(int rows, int cols)`**: 행 수(`rows`)와 열 수(`cols`)를 지정하여 격자를 만듭니다.
+* **`GridLayout(int rows, int cols, int hGap, int vGap)`**: 행/열 수뿐만 아니라 컴포넌트 사이의 간격까지 세밀하게 설정합니다.
+
+### 2. 매개변수 설명
+
+* **`rows`**: 격자의 **행 수**를 의미합니다. (디폴트 : 1)
+* **`cols`**: 격자의 **열 수**를 의미합니다. (디폴트 : 1)
+* **`hGap`**: 좌우 두 컴포넌트 사이의 **수평 간격**을 픽셀 단위로 설정합니다. (디폴트 : 0)
+* **`vGap`**: 상하 두 컴포넌트 사이의 **수직 간격**을 픽셀 단위로 설정합니다. (디폴트 : 0)
+
+### 3. 주요 특징
+
+* **`rows x cols`** 만큼의 셀을 가진 격자로 컨테이너 공간을 분할하여 컴포넌트를 배치합니다.
+
+---
+
+**💡 참고:** 이전에 사용하셨던 `new GridLayout(4, 3, 5, 5)` 코드는 이 생성자 중 세 번째 방식을 사용하여 **4행 3열**의 격자를 만들고, 각 버튼 사이에 **5픽셀**씩 틈을 준 것입니다.
+
+###  GridLayout 배치방법 요약
+
+* **격자 분할**: 컨테이너 공간을 동일한 사각형 격자(그리드)로 분할하고 각 셀에 컴포넌트를 하나씩 배치합니다.
+* **생성자 설정**: 생성자에 행수와 열수를 지정하여 구조를 결정합니다.
+* 예: `new GridLayout(4, 3, 5, 5)`는 4행 3열 분할이며, 컴포넌트 사이의 수평/수직 간격을 5픽셀로 설정한다는 의미입니다.
+
+
+* **배치 순서**: 셀에 **왼쪽에서 오른쪽으로, 다시 위에서 아래로** 순서대로 컴포넌트가 배치됩니다.
+
+---
+
+### EX16.java (GridLayout 버전)
+
+이미지의 예시(4x3 그리드, 버튼 11개)를 바탕으로 파일명을 `EX16.java`로 유지한 최종 코드입니다.
+
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class EX16 extends JFrame {
+    public EX16() {
+        setTitle("GridLayout 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        Container contentPane = getContentPane();
+
+        // 4행 3열, 수평/수직 간격 5픽셀 설정
+        contentPane.setLayout(new GridLayout(4, 3, 5, 5));
+
+        // 1부터 9까지 버튼 추가
+        for(int i=1; i<=9; i++) {
+            contentPane.add(new JButton(Integer.toString(i)));
+        }
+
+        // 마지막 줄 버튼들 추가
+        contentPane.add(new JButton("*"));
+        contentPane.add(new JButton("0"));
+        // 총 11개의 버튼이 순서대로 add 됨
+
+        setSize(300, 200);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new EX16();
+    }
+}
+
+```
+
+---
+
+### 실행 및 확인
+
+1. **컴파일**: `javac -encoding UTF-8 EX16.java`
+2. **실행**: `java EX16`
+
+이미지 **image_55f177.png**의 하단 그림처럼 버튼들이 바둑판 모양으로 예쁘게 정렬된 것을 확인하실 수 있습니다. 특히 `GridLayout`은 모든 컴포넌트의 크기를 동일하게 강제하기 때문에 계산기 숫자판 같은 화면을 만들 때 아주 유용합니다.
+
+## BorderLayout 생성자와 add() 메소드
+
+BorderLayout은 컨테이너를 5개의 구역(동, 서, 남, 북, 중앙)으로 나누어 배치하는 방식입니다.
+
+### 1. 생성자 (Constructor)
+
+* **`BorderLayout()`**: 기본 생성자로, 컴포넌트 사이의 간격이 0인 상태로 생성합니다.
+* **`BorderLayout(int hGap, int vGap)`**: 컴포넌트 간의 간격을 설정하며 생성합니다.
+* **hGap**: 좌우 컴포넌트 사이의 수평 간격 (픽셀 단위, 기본값 0)
+* **vGap**: 상하 컴포넌트 사이의 수직 간격 (픽셀 단위, 기본값 0)
+
+
+
+### 2. add() 메소드
+
+컴포넌트를 추가할 때 반드시 **위치**를 지정해줘야 합니다.
+
+* **`void add(Component comp, int index)`**: `comp` 컴포넌트를 지정된 `index` 위치에 삽입합니다.
+* **위치 상수 (index)**:
+* **동**: `BorderLayout.EAST`
+* **서**: `BorderLayout.WEST`
+* **남**: `BorderLayout.SOUTH`
+* **북**: `BorderLayout.NORTH`
+* **중앙**: `BorderLayout.CENTER`
+
+
+
+---
+
+## 실습 코드 (EX16_Border.java)
+
+위의 내용을 바탕으로 직접 실행해볼 수 있는 코드를 짜봤습니다. 이번에는 파일명을 `EX16_Border.java`로 해서 연습해 보세요!
+
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class EX16_Border extends JFrame {
+    public EX16_Border() {
+        setTitle("BorderLayout 연습");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        Container contentPane = getContentPane();
+
+        // 수평 간격 20, 수직 간격 30으로 설정
+        contentPane.setLayout(new BorderLayout(20, 30));
+
+        // 각 구역에 버튼 추가
+        contentPane.add(new JButton("Calculate"), BorderLayout.CENTER);
+        contentPane.add(new JButton("add"), BorderLayout.NORTH);
+        contentPane.add(new JButton("sub"), BorderLayout.SOUTH);
+        contentPane.add(new JButton("mul"), BorderLayout.EAST);
+        contentPane.add(new JButton("div"), BorderLayout.WEST);
+
+        setSize(400, 300);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new EX16_Border();
+    }
+}
+
+```
+
+### 실행 팁
+
+1. **파일명**: `EX16_Border.java`
+2. **컴파일**: `javac -encoding UTF-8 EX16_Border.java`
+3. **실행**: `java EX16_Border`
+
+## 배치 관리자 대표 유형 4가지
+FlowLayout 배치관리자
+
+컴포넌트가 삽입되는 순서대로 왼쪽에서 오른쪽으로 배치됩니다.
+
+배치할 공간이 없으면 아래로 내려와서 다시 왼쪽부터 배치를 반복합니다.
+
+(질문하신 코드에서 사용된 방식입니다!)
+
+BorderLayout 배치관리자
+
+컨테이너의 공간을 동(EAST), 서(WEST), 남(SOUTH), 북(NORTH), 중앙(CENTER)의 5개 영역으로 나눕니다.
+
+5개 영역 중 응용프로그램에서 지정한 영역에 컴포넌트를 배치합니다.
+
+GridLayout 배치관리자
+
+컨테이너를 프로그램에서 설정한 동일한 크기의 2차원 격자로 나눕니다.
+
+컴포넌트는 삽입 순서대로 좌에서 우로, 다시 위에서 아래로 배치됩니다.
+
+CardLayout 배치관리자
+
+컨테이너의 공간에 카드를 쌓아 놓은 듯이 컴포넌트를 포개어 배치합니다.
+
+한 번에 하나의 컴포넌트(카드)만 보이게 할 때 주로 사용합니다.
+
 ## # 현재 권장 JDK
 
 * 2026년 기준, JDK는 Java 17 또는 Java 21 (LTS 버전) 사용이 권장됩니다.
@@ -1602,7 +1785,7 @@ int result = x << 1;  // 5 * 2 = 10
 ````java
 int permissions = 1 | 2;  // 읽기, 쓰기 권한
 
-#### 17. **자바 배열**
+### 17. **자바 배열**
 
 * 같은 타입의 데이터들이 순차적으로 저장되는 자료 구조
 
@@ -1786,4 +1969,5 @@ var price = 200;  // 컴파일러가 자동으로 int로 추론
 * **어셈블리어**: 기계어의 명령어를 사람이 이해할 수 있도록 표현한 언어
 * **고급언어**: 사람이 쉽게 이해할 수 있도록 고안된 언어 (예: C,Java)
                                                                                    
+         
 
