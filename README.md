@@ -1,6 +1,68 @@
 # java-2
 # 202530116송아인 
 
+## 익명 클래스로 이벤트 리스너 작성
+
+* **익명 클래스(anonymous class) : 이름 없는 클래스**
+* **(클래스 선언 + 인스턴스 생성)을 한번에 달성**
+
+
+```java
+new 익명클래스의슈퍼클래스이름(생성자인자들) {
+    ............................
+    익명클래스의 멤버 구현
+    ............................
+};
+
+```
+
+
+* **간단한 리스너의 경우 익명 클래스 사용 추천**
+* 메소드의 개수가 1, 2개인 리스너(`ActionListener`, `ItemListener`)에 대해 주로 사용
+
+
+
+
+* **ActionListener를 구현하는 익명의 이벤트 리스너 작성 예**
+
+---
+
+### [하단 그림 내용 설명]
+
+#### **(a) 이름을 가진 클래스를 작성하고 클래스 인스턴스 생성하는 경우**
+
+* **이름을 가진 클래스 작성**
+```java
+class MyActionListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        .......
+    }
+}
+
+```
+
+
+* **클래스 인스턴스 생성**
+```java
+b.addActionListener(new MyActionListener());
+
+```
+
+
+
+$$\downarrow$$
+
+#### **(b) ActionListener를 상속받고 바로 메소드 작성. 동시에 new로 인스턴스를 생성하는 경우**
+
+* **클래스 작성과 인스턴스 생성 동시에 (익명 클래스 작성)**
+```java
+b.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        .......
+    }
+});
+
+```
 
 ## 이벤트 리스너 작성 방법
 
