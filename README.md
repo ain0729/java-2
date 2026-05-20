@@ -1,8 +1,264 @@
 # java-2
- # 202530116송아인 
- ## 2025.03.11 push test
-### 자바 프로그래밍 학습 정리 
+# 202530116송아인 
 
+
+## 이벤트 리스너 작성 방법
+
+### [ 3 가지 방법 ]
+
+* **독립 클래스로 작성**
+* 이벤트 리스너를 완전한 클래스로 작성
+* 이벤트 리스너를 여러 곳에서 사용할 때 적합
+
+
+* **내부 클래스(inner class)로 작성**
+* 클래스 안에 멤버처럼 클래스 작성
+* 이벤트 리스너를 특정 클래스에서만 사용할 때 적합
+
+
+* **익명 클래스(anonymous class)로 작성**
+* 클래스의 이름 없이 간단히 리스너 작성
+* 클래스 조차 만들 필요 없이 리스너 코드가 간단한 경우에 적합
+
+# 이벤트 리스너 작성 과정 사례
+
+### 1. 이벤트와 이벤트 리스너 선택
+
+* **버튼 클릭을 처리하고자 하는 경우**
+* 이벤트 : `ActionEvent`
+* 이벤트 리스너 : `ActionListener`
+
+
+
+### 2. 이벤트 리스너 클래스 작성 : `ActionListener` 인터페이스 구현
+
+```java
+class MyActionListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) { // 버튼이 클릭될 때 호출되는 메소드
+        JButton b = (JButton)e.getSource();    // 사용자가 클릭한 버튼 알아내기
+        if(b.getText().equals("Action")) {       // 버튼의 문자열이 "Action"인지 비교
+            b.setText("액션");                    // JButton의 setText() 호출. 문자열 변경
+        } else {
+            b.setText("Action");                  // JButton의 setText() 호출. 문자열 변경
+        }
+    }
+}
+
+```
+
+### 3. 이벤트 리스너 등록
+
+* 이벤트를 받아 처리하고자 하는 컴포넌트에 이벤트 리스너 등록
+* `component.addXXXListener(listener)`
+* `xxx` : 이벤트 명, `listener` : 이벤트 리스너 객체
+
+
+
+```java
+MyActionListener listener = new MyActionListener(); // 리스너 인스턴스 생성
+btn.addActionListener(listener);                    // 리스너 등록
+
+```
+
+# 리스너 인터페이스
+
+* **이벤트 리스너 :** 이벤트를 처리하는 자바 프로그램 코드, **클래스로 작성**
+* **자바는 다양한 리스너 인터페이스 제공**
+
+### 예) `ActionListener` 인터페이스
+
+> 버튼 클릭 이벤트를 처리하기 위한 인터페이스
+
+```java
+interface ActionListener { // 아래 메소드를 개발자가 구현해야 함
+    public void actionPerformed(ActionEvent e); // Action 이벤트 발생시 호출됨
+}
+
+```
+
+### 예) `MouseListener` 인터페이스
+
+> 마우스 조작에 따른 이벤트를 처리하기 위한 인터페이스
+
+```java
+interface MouseListener { // 아래의 5개 메소드를 개발자가 구현해야 함
+    public void mousePressed(MouseEvent e);  // 마우스 버튼이 눌러지는 순간 호출
+    public void mouseReleased(MouseEvent e); // 눌러진 마우스 버튼이 떼어지는 순간 호출
+    public void mouseClicked(MouseEvent e);  // 마우스가 클릭되는 순간 호출
+    public void mouseEntered(MouseEvent e);  // 마우스가 컴포넌트 위에 올라가는 순간 호출
+    public void mouseExited(MouseEvent e);   // 마우스가 컴포넌트 위에서 내려오는 순간 호출
+}
+
+```
+
+---
+
+* **사용자의 이벤트 리스너 작성**
+* 자바의 리스너 인터페이스(`interface`)를 **상속받아 구현**
+* 리스너 인터페이스의 **모든 추상 메소드 구현** 필수
+
+# 이벤트 객체, 이벤트 소스, 발생하는 경우
+
+| 이벤트 객체 | 이벤트 소스 | 이벤트가 발생하는 경우 |
+| --- | --- | --- |
+| **ActionEvent** | `JButton`<br>
+
+<br>`JMenuItem`<br>
+
+<br>`JTextField` | 마우스나 `<Enter>` 키로 버튼 선택<br>
+
+<br>메뉴 아이템 선택<br>
+
+<br>텍스트 입력 중 `<Enter>` 키 입력 |
+| **ItemEvent** | `JCheckBox`<br>
+
+<br>`JRadioButton`<br>
+
+<br>`JCheckBoxMenuItem` | 체크박스의 선택 혹은 해제<br>
+
+<br>라디오 버튼의 선택 상태가 변할 때<br>
+
+<br>체크박스 메뉴 아이템의 선택 혹은 해제 |
+| **ListSelectionEvent** | `JList` | 리스트에 선택된 아이템이 변경될 때 |
+| **KeyEvent** | `Component` | 키가 눌러지거나 눌려진 키가 떼어질 때 |
+| **MouseEvent** | `Component` | 마우스 버튼이 눌러지거나 떼어질 때, 마우스 버튼이 클릭될 때, 컴포넌트 위에 마우스가 올라갈 때, 올라간 마우스가 내려올 때, 마우스가 드래그될 때, 마우스가 단순히 움직일 때 |
+| **FocusEvent** | `Component` | 컴포넌트가 포커스를 받거나 잃을 때 |
+| **WindowEvent** | `Window` | Window를 상속받는 모든 컴포넌트에 대해 윈도우 활성화, 비활성화, 아이콘화, 아이콘에서 복구, 윈도우 열기, 윈도우 닫기, 윈도우 종료 |
+| **ComponentEvent** | `Component` | 컴포넌트가 사라지거나, 나타나거나, 이동, 크기 변경 시 |
+| **ContainerEvent** | `Container` | Container에 컴포넌트 추가 혹은 삭제 시 |
+# 이벤트 객체와 이벤트 정보를 리턴하는 메소드
+
+### [EventObject]
+
+* `Object getSource()`
+* └ **[AWTEvent]**
+* ├ **[ActionEvent]**
+* `String getActionCommand()`
+
+
+* ├ **[ComponentEvent]**
+* └ **[InputEvent]**
+* `int getModifiers()`
+* ├ **[MouseEvent]**
+* `int getButton()`
+* `int getClickCount()`
+* `Point getPoint()`
+* `int getX()`
+* `int getY()`
+
+
+* └ **[KeyEvent]**
+* `char getKeyChar()`
+* `int getKeyCode()`
+* `String getKeyText()`
+
+
+* └ **[ItemEvent]**
+* `Object getItem()`
+* `int getStateChange()`
+
+
+### 구조 한눈에 보기 요약
+
+* 최상위에는 `EventObject`가 있으며, 모든 이벤트 객체는 `getSource()` 메소드를 공유합니다.
+* 키보드(`KeyEvent`)와 마우스(`MouseEvent`) 입력은 모두 `InputEvent`와 `ComponentEvent`를 상속받는 계층 구조를 가집니다.
+
+# 이벤트 객체
+
+* **이벤트 객체**
+* 발생한 이벤트에 관한 정보를 가진 객체
+* 이벤트 리스너에 전달됨
+* **이유:** 이벤트 리스너 코드가 발생한 이벤트에 대한 **상황을 파악할 수 있게 함**
+
+* **이벤트 객체가 포함하는 정보**
+* 이벤트 종류와 이벤트 소스
+* 이벤트가 발생한 **화면 좌표 및 컴포넌트 내 좌표**
+* 이벤트가 발생한 버튼이나 메뉴 아이템의 문자열
+* 클릭된 마우스 버튼 번호 및 마우스의 클릭 횟수
+* 키의 코드 값과 문자 값
+* 체크박스, 라디오버튼 등과 같은 컴포넌트에 이벤트가 발생하였다면 **체크 상태**
+
+
+* **이벤트 소스를 알아내는 메소드 : `Object getSource()**`
+* 발생한 이벤트의 **소스 컴포넌트 리턴**
+* `Object` 타입으로 리턴하므로 **캐스팅(Casting)하여 사용**
+* 모든 이벤트 객체에 대해 적용 가능
+
+# 자바의 이벤트 기반 스윙 응용프로그램의 구조와 이벤트 처리 과정
+
+### 1. 이벤트 처리 흐름 (도식 순서)
+
+1. **① 화면상의 New 버튼에 마우스 클릭**
+* 하드웨어(마우스)에서 입력 발생
+
+
+2. **② 시스템 거치기**
+* PC 등 하드웨어 $\rightarrow$ 운영체제 $\rightarrow$ 자바 가상 기계(JVM) 순으로 신호 전달
+
+
+3. **③ 이벤트 분배 스레드**
+* JVM에서 이벤트 분배 스레드로 신호가 넘어감
+
+
+4. **④ ActionEvent 생성**
+* 이벤트 소스(`JButton`)에서 `ActionEvent` 객체가 생성됨
+
+
+5. **⑤ 호출**
+* 이벤트 분배 스레드가 해당 버튼에 연결된 **이벤트 리스너4**를 호출하여 코드를 실행
+
+
+### 2. 자바 응용프로그램 내부 컴포넌트와 리스너 관계
+
+* **JList** $\leftrightarrow$ 이벤트 리스너1
+* **JTextField** $\leftrightarrow$ 이벤트 리스너2
+* **JMenuItem** $\leftrightarrow$ 이벤트 리스너3
+* **JButton (이벤트 소스)** $\leftrightarrow$ 이벤트 리스너4
+
+---
+
+### 3. 캐릭터 말풍선 설명 요약
+
+> "발생한 이벤트는 **Action 이벤트**이고, 이벤트 소스는 **JButton**이며, 이벤트 객체는 **ActionEvent**이고, 이벤트 리스너는 **이벤트 리스너4**입니다."
+
+## 자바 스윙 프로그램에서 이벤트 처리 과정
+1. 이벤트 발생
+예 : 마우스의 움직임 혹은 키보드 입력
+
+2. 이벤트 객체 생성
+현재 발생한 이벤트에 대한 정보를 가진 객체
+
+3. 응용프로그램에 작성된 이벤트 리스너 찾기
+4. 이벤트 리스너 실행
+리스너에 이벤트 객체 전달
+
+리스너 코드 실행
+
+## 이벤트 기반 프로그래밍
+
+* **이벤트 기반 프로그래밍(Event Driven Programming)**
+* 이벤트의 발생에 의해 **프로그램 흐름이 결정되는 방식**
+* 이벤트가 발생하면 이벤트를 처리하는 루틴(**이벤트 리스너**) 실행
+* 실행될 코드는 이벤트의 발생에 의해 전적으로 결정
+
+
+* 반대되는 개념 : **배치 실행(batch programming)**
+* 프로그램의 **개발자가 프로그램의 흐름을 결정하는 방식**
+
+
+* 이벤트 종류
+* **사용자의 입력** : 마우스 드래그, 마우스 클릭, 키보드 누름 등
+* 센서로부터의 입력, 네트워크로부터 데이터 송수신
+* 다른 응용프로그램이나 다른 스레드로부터의 메시지
+
+* **이벤트 기반 응용 프로그램의 구조**
+* 각 이벤트마다 처리하는 **리스너 코드 보유**
+
+
+* **GUI 응용프로그램은 이벤트 기반 프로그래밍으로 작성됨**
+* GUI 라이브러리 종류 : C++의 MFC, C# GUI, Visual Basic, X Window, Android 등
+* 자바의 **AWT와 Swing**
+--5/20
 ### 배치 관리자가 없는 컨테이너 (Absolute Positioning)
 
 배치 관리자를 제거하면 개발자가 컴포넌트의 좌표($x$, $y$)와 크기($width$, $height$)를 직접 지정해야 합니다.
@@ -26,7 +282,7 @@
 
 ---
 
-### 💻 EX16.java (절대 배치 예제)
+### EX16.java (절대 배치 예제)
 
 파일 이름을 `EX16.java`로 유지하면서, 버튼을 직접 원하는 위치에 배치하는 코드입니다.
 
@@ -2033,5 +2289,3 @@ var price = 200;  // 컴파일러가 자동으로 int로 추론
 * **어셈블리어**: 기계어의 명령어를 사람이 이해할 수 있도록 표현한 언어
 * **고급언어**: 사람이 쉽게 이해할 수 있도록 고안된 언어 (예: C,Java)
                                                                                    
-         
-
