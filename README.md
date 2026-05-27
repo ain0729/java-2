@@ -1,6 +1,322 @@
 # java-2
 # 202530116송아인 
 
+<<<<<<< HEAD
+
+
+## 스윙 컴포넌트의 공통 메소드, JComponent의 메소드
+
+* **`JComponent`**
+* 스윙 컴포넌트의 멤버를 모두 상속받는 슈퍼 클래스, 추상 클래스
+* 스윙 컴포넌트들이 상속받는 공통 메소드와 상수 구현
+* `JComponent`의 주요 메소드 사례
+
+
+
+---
+
+### 1. 컴포넌트의 모양과 관련된 메소드
+
+* `void setForeground(Color)` : 전경색 설정
+* `void setBackground(Color)` : 배경색 설정
+* `void setOpaque(boolean)` : 불투명성 설정
+* `void setFont(Font)` : 폰트 설정
+* `Font getFont()` : 폰트 리턴
+
+### 2. 컴포넌트의 상태와 관련된 메소드
+
+* `void setEnabled(boolean)` : 컴포넌트 활성화/비활성화
+* `void setVisible(boolean)` : 컴포넌트 보이기/숨기기
+* `boolean isVisible()` : 컴포넌트의 보이는 상태 리턴
+
+---
+
+### 3. 컴포넌트의 위치와 크기에 관련된 메소드
+
+* `int getWidth()` : 폭 리턴
+* `int getHeight()` : 높이 리턴
+* `int getX()` : x 좌표 리턴
+* `int getY()` : y 좌표 리턴
+* `Point getLocationOnScreen()` : 스크린 좌표상에서의 컴포넌트 좌표
+* `void setLocation(int, int)` : 위치 지정
+* `void setSize(int, int)` : 크기 지정
+
+### 4. 컨테이너를 위한 메소드
+
+* `Component add(Component)` : 자식 컴포넌트 추가
+* `void remove(Component)` : 자식 컴포넌트 제거
+* `void removeAll()` : 모든 자식 컴포넌트 제거
+* `Component[] getComponents()` : 자식 컴포넌트 배열 리턴
+* `Container getParent()` : 부모 컨테이너 리턴
+* `Container getTopLevelAncestor()` : 최상위 부모 컨테이너 리턴
+
+## 컴포넌트 기반 GUI 프로그래밍에 사용되는 스윙 컴포넌트
+
+* 마스터 텍스트 스타일 편집
+
+> **참고:** `JComponent`, `AbstractButton`, `JTextComponent`는 **추상 클래스**입니다.
+
+---
+
+### [ 스윙 컴포넌트 상속 계층도 (Hierarchy) ]
+
+* **`Object`**
+* └─ **`Component`**
+* └─ **`Container`**
+* └─ **`JComponent`**
+* ├─ **`AbstractButton`**
+│   ├─ `JToggleButton`
+│   │   ├─ `JCheckBox`
+│   │   └─ `JRadioButton`
+│   ├─ `JButton`
+│   └─ `JMenuItem`
+│       ├─ `JMenu`
+│       └─ `JCheckBoxMenuItem`
+* ├─ **`JLabel`**
+* ├─ **`JScrollBar`**
+* ├─ **`JMenuBar`**
+* ├─ **`JList`**
+* ├─ **`JComboBox`**
+* ├─ **`JSlider`**
+* ├─ **`JPanel`**
+* └─ **`JTextComponent`**
+* ├─ `JTextField`
+│   └─ `JPasswordField`
+└─ `JTextArea`
+
+## 자바의 GUI 프로그래밍 방법
+
+### [ 자바의 GUI 프로그래밍 방법 2 종류 ]
+
+* **컴포넌트 기반 GUI 프로그래밍**
+* 스윙 컴포넌트를 이용하여 쉽게 GUI를 구축
+* 자바에서 제공하는 컴포넌트의 한계를 벗어나지 못함
+
+
+* **그래픽을 이용하여 GUI 구축**
+* 그래픽 기반 GUI 프로그래밍
+* 개발자가 직접 그래픽으로 화면을 구성하는 부담
+* **독특한 GUI를 구성할 수 있는 장점**
+* GUI 처리의 실행 속도가 빨라, 게임 등에 주로 이용
+
+* 교재에서는 Swing 컴포넌트 중 **8개 컴포넌트**의 사용법에 관해 설명하고 있습니다.
+> `JLabel`, `JButton`, `JCheckBox`, `JRadioButton`, `JTextField`, `JTextArea`, `JList`, `JComboBox`
+
+
+* 이 챕터는 “8장 자바 GUI 스윙 기초”를 기반으로 몇 가지 추가 예제를 소개하고 있습니다.
+
+## 마우스 리스너 달기와 MouseEvent 객체 활용
+
+* **마우스 리스너 달기**
+* 마우스 리스너는 컴포넌트에 다음과 같이 등록
+> `component.addMouseListener(myMouseListener);`
+
+
+* 컴포넌트가 마우스 무브(`mouseMoved()`)나 마우스 드래깅(`mouseDragged()`)을 함께 처리하고자 하면, **MouseMotion 리스너 따로 등록**
+> `component.addMouseMotionListener(myMouseMotionListener);`
+
+
+* **MouseEvent 객체 활용**
+* 마우스 포인터의 위치, 컴포넌트 내 상대 위치 : **`int getX()`**, **`int getY()`**
+
+
+> ```java
+> public void mousePressed(MouseEvent e) {
+>     int x = e.getX(); // 마우스가 눌러진 x 좌표
+>     int y = e.getY(); // 마우스가 눌러진 y 좌표
+> }
+> 
+> ```
+> 
+> 
+
+
+* **마우스 클릭 횟수 : `int getClickCount()**`
+> ```java
+> public void mouseClicked(MouseEvent e) {
+>     if(e.getClickCount() == 2) {
+>         ... // 더블클릭 처리 루틴
+>     }
+> }
+> 
+> ```
+> 
+>
+
+## Mouse 이벤트와 MouseListener, MouseMotionListener
+
+* **Mouse 이벤트 : 사용자의 마우스 조작에 따라 발생하는 이벤트**
+
+| Mouse 이벤트가 발생하는 경우 | 리스너의 메소드 | 리스너 |
+| --- | --- | --- |
+| 마우스가 컴포넌트 위에 올라갈 때 | `void mouseEntered(MouseEvent e)` | MouseListener |
+| 마우스가 컴포넌트에서 내려올 때 | `void mouseExited(MouseEvent e)` | MouseListener |
+| 마우스 버튼이 눌러졌을 때 | `void mousePressed(MouseEvent e)` | MouseListener |
+| 눌러진 버튼이 떼어질 때 | `void mouseReleased(MouseEvent e)` | MouseListener |
+| 마우스로 컴포넌트를 클릭하였을 때 | `void mouseClicked(MouseEvent e)` | MouseListener |
+| 마우스가 드래그되는 동안 | `void mouseDragged(MouseEvent e)` | MouseMotionListener |
+| 마우스가 움직이는 동안 | `void mouseMoved(MouseEvent e)` | MouseMotionListener |
+
+* `- mouseClicked()` : 마우스가 눌러진 위치에서 그대로 떼어질 때 호출
+* `- mouseReleased()` : 마우스가 눌러진 위치에서 그대로 떼어지든 아니든 항상 호출
+* `- mouseDragged()` : 마우스가 드래그되는 동안 **계속 여러번 호출**
+
+---
+
+* **마우스가 눌러진 위치에서 떼어지는 경우 메소드 호출 순서**
+> `mousePressed()`, `mouseReleased()`, `mouseClicked()`
+
+
+* **마우스가 드래그될 때 호출되는 메소드 호출 순서**
+> `mousePressed()`, `mouseDragged()`, `mouseDragged()`, ..., `mouseDragged()`, `mouseReleased()`
+
+## 예제 9-6 : KeyListener 활용 – 입력된 문자 키 판별
+
+* **컨텐트팬에 `<Enter>` 키를 입력할 때마다 배경색을 랜덤하게 바꾸고, 'q' 키를 입력하면 프로그램을 종료 시켜라.**
+
+### [실행 화면 설명]
+
+* **첫 번째 상태**: `<Enter>`키로 배경색이 바뀝니다 (흰색 배경)
+* **두 번째 상태**: `r=238, g=235, b=136` (노란색 계열 배경)
+* **세 번째 상태**: `r=203, g=253, b=125` (연두색 계열 배경)
+* > **'q' 키를 입력하면 프로그램 종료**라는 안내 말풍선 표시
+
+---
+
+### [구현 조건 및 힌트]
+
+* **컨텐트팬에 키 리스너를 달고, 포커스를 주어**, 키 입력을 받도록 해야 한다.
+* 색은 `new Color(int r, int g, int b)`로 생성한다.
+* `r(red), g(green), b(blue)`는 색의 3요소로서 **0~255 사이의 값**이다.
+
+## 가상 키(Virtual Key)
+
+* 가상 키는 `KeyEvent` 클래스에 상수로 선언
+* 가상 키의 일부 소개
+
+| 가상 키 | 설명 | 가상 키 | 설명 |
+| --- | --- | --- | --- |
+| **`VK_0` ~ `VK_9**` | 0에서 9까지의 키.<br>
+
+<br>'0'~'9'까지의 유니코드 값과 동일 | **`VK_LEFT`** | 왼쪽 방향 키 |
+| **`VK_A` ~ `VK_Z**` | A에서 Z까지의 키.<br>
+
+<br>'A'~'Z'까지의 유니코드 값과 동일 | **`VK_RIGHT`** | 오른쪽 방향 키 |
+| **`VK_F1` ~ `VK_F24**` | `<F1>`~`<F24>`까지의 키 코드 | **`VK_UP`** | `<Up>` 키 |
+| **`VK_HOME`** | `<Home>` 키 | **`VK_DOWN`** | `<Down>` 키 |
+| **`VK_END`** | `<End>` 키 | **`VK_CONTROL`** | `<Control>` 키 |
+| **`VK_PGUP`** | `<Page Up>` 키 | **`VK_SHIFT`** | `<Shift>` 키 |
+| **`VK_PGDN`** | `<Page Down>` 키 | **`VK_ALT`** | `<Alt>` 키 |
+| **`VK_UNDEFINED`** | 입력된 키의 코드 값을 알 수 없음 | **`VK_TAB`** | `<Tab>` 키 |
+
+## 가상 키와 입력된 키 판별
+
+* **`KeyEvent` 객체**
+* 입력된 키 정보를 가진 이벤트 객체
+* `KeyEvent` 객체의 메소드로 입력된 키 판별
+
+
+* **`KeyEvent` 객체의 메소드로 입력된 키 판별**
+* **`char KeyEvent.getKeyChar()`**
+* 키의 유니코드 문자 값 리턴
+* Unicode 문자 키인 경우에만 의미 있음
+* 입력된 키를 판별하기 위해 문자 값과 비교하면 됨
+
+> ```java
+> public void keyPressed(KeyEvent e) {
+>     if(e.getKeyChar() == 'q')
+>         System.exit(0);
+> }
+> 
+> ```
+> 
+> 
+> **q** 키가 누르면 프로그램 종료
+
+* **`int KeyEvent.getKeyCode()`**
+* 유니코드 키 포함
+* **모든 키에 대한 정수형 키 코드 리턴**
+* 입력된 키를 판별하기 위해 **가상키(Virtual Key) 값과 비교**하여야 함
+* 가상 키 값은 `KeyEvent` 클래스에 상수로 선언
+
+
+> ```java
+> public void keyPressed(KeyEvent e) {
+>     if(e.getKeyCode() == KeyEvent.VK_F5)
+>         System.exit(0);
+> }
+> 
+> ```
+> 
+> 
+> **F5** 키를 누르면 프로그램 종료
+
+## KeyListener
+
+* **응용프로그램에서 KeyListener를 상속받아 키 리스너 구현**
+* *참고: 문맥상 인터페이스이므로 '상속(extends)'보다는 '구현(implements)'이 정확한 표현입니다.*
+
+
+* **KeyListener의 3 개 메소드**
+* **키 리스너(KeyListener) 구조**
+```java
+void keyPressed(KeyEvent e) {
+    // ① 키를 누르는 순간 이벤트 처리 루틴
+}
+
+void keyReleased(KeyEvent e) {
+    // ③ 누른 키를 떼는 순간 이벤트 처리 루틴
+}
+
+void keyTyped(KeyEvent e) {
+    // ② 누른 키를 떼는 순간, Unicode 키인 경우 이벤트 처리 루틴
+}
+
+```
+
+
+* **실행되는 순서 :** ❶ `keyPressed` $\rightarrow$ ❷ `keyTyped` $\rightarrow$ ❸ `keyReleased`
+
+
+* **컴포넌트에 키 이벤트 리스너 달기**
+```java
+component.addKeyListener(myKeyListener);
+
+```
+
+> 💡 **핵심 포인트:** 키를 한 번 톡 누르고 뗄 때 프로그램 내부적으로는 총 3단계의 이벤트가 순서대로 일어납니다. 특히 `keyTyped`는 문자 키(A, B, 가, 1 등)를 입력할 때만 발동하고, 방향키나 F1 같은 기능 키를 누를 때는 발동하지 않으니 구현할 때 꼭 유의하세요!
+
+## KeyListener
+
+* **응용프로그램에서 KeyListener를 상속받아 키 리스너 구현**
+* *참고: 문맥상 인터페이스이므로 '상속(extends)'보다는 '구현(implements)'이 정확한 표현입니다.*
+
+
+* **KeyListener의 3 개 메소드**
+* **키 리스너(KeyListener) 구조**
+```java
+void keyPressed(KeyEvent e) {
+    // ① 키를 누르는 순간 이벤트 처리 루틴
+}
+
+void keyReleased(KeyEvent e) {
+    // ③ 누른 키를 떼는 순간 이벤트 처리 루틴
+}
+
+void keyTyped(KeyEvent e) {
+    // ② 누른 키를 떼는 순간, Unicode 키인 경우 이벤트 처리 루틴
+}
+
+```
+
+
+* **실행되는 순서 :** ❶ `keyPressed` $\rightarrow$ ❷ `keyTyped` $\rightarrow$ ❸ `keyReleased`
+
+
+* **컴포넌트에 키 이벤트 리스너 달기**
+```java
+component.addKeyListener(myKeyListener);
+``0527
 ## 예제 9-4 : 마우스 이벤트 리스너 작성 연습 - 마우스로 문자열 이동시키기
 
 * 아래 실행 화면과 같이 프레임의 임의의 위치에 마우스 버튼을 누르면 마우스 포인터가 있는 위치에 "Hello" 문자열을 출력하는 프로그램을 작성하라.
