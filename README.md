@@ -3,6 +3,278 @@
 
 
 
+## 메뉴 구성
+
+### ❑ 메뉴 만들기에 필요한 스윙 컴포넌트
+
+* **메뉴아이템 – JMenuItem**
+* **메뉴 – JMenu**
+* 여러 개의 메뉴 아이템을 가짐
+
+
+* **메뉴바 – JMenuBar**
+* 여러 개의 메뉴를 붙이는 바이며, 프레임에 부착됨
+
+
+* **분리선**
+* 메뉴아이템 사이의 분리선으로 separator라고 부름
+* `JMenu`의 `addSeparator()`를 호출하여 삽입함
+
+
+
+---
+
+### ❑ 실행 화면 설명 말풍선
+
+* **Screen, Edit, Source, Project, Run이 있는 가로 줄 전체:** 메뉴바(JMenuBar)
+* **Screen 항목:** 메뉴(JMenu)
+* **Load, Hide, ReShow, Exit 각각의 항목 (예시에서는 Hide 가리킴):** 메뉴아이템(JMenuItem)
+* **ReShow와 Exit 사이의 가로 선:** 분리선
+
+## JComboBox<E>
+
+### ❑ JComboBox<E>
+
+* 텍스트필드와 버튼, 그리고 드롭다운 리스트로 구성되는 콤보박스
+* 드롭다운 리스트에서 선택한 것이 텍스트필드에 나타남
+
+---
+
+### ❑ 콤보박스 생성
+
+* `JComboBox<E>()` 빈 콤보박스
+* `JComboBox<E>(Vector listData)` 벡터로부터 아이템을 공급받는 콤보박스
+* `JComboBox<E>(Object [] listData)` 배열로부터 아이템을 공급받는 콤보박스
+
+---
+
+### ❑ 예) 텍스트를 아이템으로 가진 콤보박스 생성
+
+```java
+String [] fruits = {"apple", "banana", "kiwi", 
+                    "mango", "pear", "peach", 
+                    "berry", "strawberry", "blackberry"};
+JComboBox<String> combo = new JComboBox<String>(fruits);
+
+```
+
+> **우측 화면 설명 말풍선:**
+> * **banana 표시 영역:** 텍스트필드
+> * **▼ 모양 영역:** 버튼
+> * **아래로 나열된 항목 영역:** 드롭다운 리스트
+> 
+>
+
+## JList<E>
+
+### ❑ JList<E>
+
+* 하나 이상의 아이템을 보여주고 아이템을 선택하도록 하는 리스트
+* **Java 7부터 제네릭 리스트로 바뀜**
+* `<E>`에 지정된 타입의 객체만 저장하는 리스트
+
+
+* `JScrollPane`에 `JList<E>`를 삽입하여 스크롤 가능
+
+---
+
+### ❑ 리스트 생성
+
+* `JList<E>()` 빈 리스트
+* `JList<E>(Vector listData)` 벡터로부터 아이템을 공급받는 리스트
+* `JList<E>(Object [] listData)` 배열로부터 아이템을 공급받는 리스트
+
+---
+
+### ❑ 예) 9개의 과일 이름 문자열이 든 리스트 만들기
+
+```java
+String [] fruits = {"apple", "banana", "kiwi", "mango", "pear", 
+                    "peach", "berry", "strawberry", "blackberry"};
+JList<String> strList = new JList<String>(fruits);
+
+```
+
+> **우측 화면 설명:**
+> * `JList<String>`의 문자열 리스트 예시 화면 (apple, banana ... blackberry 항목이 나열되고 peach가 선택된 상태)
+> 
+>
+
+---
+
+## JRadioButton으로 라디오버튼 만들기
+
+### ❑ JRadioButton의 용도
+
+* 버튼 그룹을 형성하고, 그룹에 속한 버튼 중 하나만 선택되는 라디오버튼
+* **체크박스와의 차이점**
+* 체크 박스는 각각 선택/해제가 가능하지만, 라디오버튼은 그룹에 속한 버튼 중 하나만 선택
+
+
+
+> **우측 화면 설명 말풍선:**
+> * **사과, 배 영역:** 버튼 그룹에 속한 라디오버튼들
+> * **체리 이미지 영역:** 이미지 라디오버튼
+> 
+> 
+
+---
+
+### ❑ 라디오버튼 생성
+
+* `JRadioButton()` 빈 라디오버튼
+* `JRadioButton(Icon image)` 이미지 라디오버튼
+* `JRadioButton(Icon image, boolean selected)` 이미지 라디오버튼
+* `JRadioButton(String text)` 문자열 라디오버튼
+* `JRadioButton(String text, boolean selected)` 문자열 라디오버튼
+* `JRadioButton(String text, Icon image)` 문자열과 이미지를 가진 라디오버튼
+* `JRadioButton(String text, Icon image, boolean selected)` 문자열과 이미지를 가진 라디오버튼
+* `selected`: `true`면 선택 상태로 초기화
+
+## JCheckBox로 체크박스 만들기
+
+### ❑ JCheckBox의 용도
+
+* 선택(selected)과 비선택(deselected) 두 상태만 가지는 버튼
+
+> **우측 화면 설명 말풍선:**
+> * **사과, 배 텍스트 영역:** 체크박스 문자열
+> * **체리 이미지 영역:** 체크박스 이미지
+> 
+> 
+
+---
+
+### ❑ 체크박스 생성
+
+* `JCheckBox()` 빈 체크박스
+* `JCheckBox(Icon image)` 이미지 체크박스
+* `JCheckBox(Icon image, boolean selected)` 이미지 체크박스
+* `JCheckBox(String text, Icon image)` 문자열과 이미지를 가진 체크박스
+* `JCheckBox(String text, Icon image, boolean selected)` 문자열과 이미지 체크박스
+* `selected`: `true`면 선택 상태로 초기화
+
+
+
+---
+
+### ❑ 문자열을 가진 체크박스 생성 예
+
+```java
+JCheckBox apple = new JCheckBox("사과"); // "사과" 체크박스 생성
+JCheckBox pear = new JCheckBox("배", true); // 선택 상태의 "배" 체크박스 생성
+
+```
+
+## 예제 10-5 : ItemEvent를 활용하여 체크박스로 가격 합산 응용
+
+그림과 같이 사과, 배, 체리 체크박스를 만들고, 사용자가 과일을 선택하면 선택된 과일의 가격을 합산하여 출력하는 프로그램을 작성하라.
+
+---
+
+### 실행 화면 설명 (우측 말풍선)
+
+* **체크박스 영역 (사과, 배, 체리):** 3 개의 체크박스
+* **하단 결과 메시지 영역 ("현재 20100원 입니다."):** 계산 합을 출력하는 레이블
+
+## 예제 10-1 : 스윙 컴포넌트의 공통 기능, JComponent의 메소드
+
+### 1. 소스 코드 (좌측)
+
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class JComponentEx extends JFrame {
+    public JComponentEx() {
+        super("JComponent의 공통 메소드 예제");
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        
+        JButton b1 = new JButton("Magenta/Yellow Button");
+        JButton b2 = new JButton("Disabled Button ");
+        JButton b3 = new JButton("getX(), getY()");
+        
+        b1.setBackground(Color.YELLOW);
+        b1.setForeground(Color.MAGENTA);
+        b1.setFont(new Font("Arial", Font.ITALIC, 20));
+        
+        b2.setEnabled(false);
+        
+        b3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JButton b = (JButton)e.getSource();
+                setTitle(b.getX() + "," + b.getY());
+            }
+        });
+        
+        c.add(b1); c.add(b2); c.add(b3);
+        setSize(260, 200); setVisible(true);
+    }
+    
+    public static void main(String[] args) {
+        new JComponentEx();
+    }
+}
+
+```
+
+---
+
+### 2. 실행 화면 설명 (우측)
+
+#### **초기 상태 (위쪽 화면)**
+
+* **Magenta/Yellow Button 말풍선:** "Arial" 로 20픽셀 크기의 폰트
+* **Disabled Button 말풍선:** 비활성 버튼
+
+#### **getX(), getY() 버튼이 클릭된 상태 (아래쪽 화면)**
+
+* **타이틀바(68,77) 빨간 원:** 클릭하면 타이틀바에 버튼의 좌표 출력
+
+## 다른 컴포넌트의 메소드
+
+# 앞서 살펴본 바와 같이 JComponent의 메소드를 상속 받기 때문에 이 장에서 설명하는 컴포넌트의 사용법의 거의 동일합니다.
+
+# 다음 예를 비교해 보면 알 수 있듯이 JButton, JCheckBox, JRadioButton, JTextField, JTextArea, JList, JComboBox 모두 사용하는 메소드는 JLabel과 유사합니다.
+
+# 사용하고 싶은 컴포넌트를 골라 예제10-1을 참고하여 코드를 작성하면 됩니다.
+
+---
+
+### JLabel
+
+* `JLabel()` 빈 레이블
+* `JLabel(Icon image)` 이미지 레이블
+* `JLabel(String text)` 문자열 레이블
+* `JLabel(String text, Icon image, int hAlign)` 문자열과 이미지 모두 가진 레이블
+* *hAlign: 수평 정렬 값으로 SwingConstants.LEFT, SwingConstants.RIGHT, SwingConstants.CENTER 중 하나
+
+
+
+---
+
+### JButton
+
+* `JButton()` 빈 버튼
+* `JButton(Icon image)` 이미지 버튼
+* `JButton(String text)` 문자열 버튼
+* `JButton(String text, Icon image)` 문자열과 이미지 모두 가진 버튼
+
+---
+
+### JCheckBox
+
+* `JCheckBox()` 빈 체크박스
+* `JCheckBox(Icon image)` 이미지 체크박스
+* `JCheckBox(Icon image, boolean selected)` 이미지 체크박스
+* `JCheckBox(String text, Icon image)` 문자열과 이미지를 가진 체크박스
+* `JCheckBox(String text, Icon image, boolean selected)` 문자열과 이미지 체크박스
+* *selected: true면 선택 상태로 초기화
+
+``0605
+
 ## 스윙 컴포넌트의 공통 메소드, JComponent의 메소드
 
 * **`JComponent`**
@@ -316,12 +588,27 @@ void keyTyped(KeyEvent e) {
 ```java
 component.addKeyListener(myKeyListener);
 
-```
+```0527
 
 
+=======
+## 예제 9-4 : 마우스 이벤트 리스너 작성 연습 - 마우스로 문자열 이동시키기
 
----
+* 아래 실행 화면과 같이 프레임의 임의의 위치에 마우스 버튼을 누르면 마우스 포인터가 있는 위치에 "Hello" 문자열을 출력하는 프로그램을 작성하라.
 
+### [실행 화면 구성]
+
+* **초기 화면** (좌측에 "Hello" 배치)
+* **마우스를 다른 곳에 클릭한 경우** (클릭한 마우스 포인터 위치로 "Hello" 이동)
+* **마우스를 다른 곳에 클릭한 경우** (새로 클릭한 마우스 포인터 위치로 "Hello" 이동)
+
+## 익명 클래스로 이벤트 리스너 작성
+>>>>>>> da5bb586608a1223470cafc92a6f9d66f2ce5b3a
+
+* **익명 클래스(anonymous class) : 이름 없는 클래스**
+* **(클래스 선언 + 인스턴스 생성)을 한번에 달성**
+
+<<<<<<< HEAD
 > 💡 **핵심 포인트:** 키를 한 번 톡 누르고 뗄 때 프로그램 내부적으로는 총 3단계의 이벤트가 순서대로 일어납니다. 특히 `keyTyped`는 문자 키(A, B, 가, 1 등)를 입력할 때만 발동하고, 방향키나 F1 같은 기능 키를 누를 때는 발동하지 않으니 구현할 때 꼭 유의하세요!
 
 ## Key 이벤트와 포커스
@@ -430,6 +717,8 @@ class MouseAdapter implements MouseListener, MouseMotionListener, MouseWheelList
 * **익명 클래스(anonymous class) : 이름 없는 클래스**
 * **(클래스 선언 + 인스턴스 생성)을 한번에 달성**
 
+=======
+>>>>>>> da5bb586608a1223470cafc92a6f9d66f2ce5b3a
 
 ```java
 new 익명클래스의슈퍼클래스이름(생성자인자들) {
