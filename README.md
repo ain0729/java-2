@@ -3,218 +3,151 @@
 
 
 
-## 메뉴 구성
+## 자바의 입출력 스트림
 
-### ❑ 메뉴 만들기에 필요한 스윙 컴포넌트
+### ❑ 자바의 입출력 스트림
 
-* **메뉴아이템 – JMenuItem**
-* **메뉴 – JMenu**
-* 여러 개의 메뉴 아이템을 가짐
-
-
-* **메뉴바 – JMenuBar**
-* 여러 개의 메뉴를 붙이는 바이며, 프레임에 부착됨
+* **입출력 장치와 자바 응용 프로그램 연결**
+* **입력 스트림 :** 입력 장치로부터 자바 프로그램으로 데이터를 전달하는 객체
+* **출력 스트림 :** 자바 프로그램에서 출력 장치로 데이터를 보내는 객체
 
 
-* **분리선**
-* 메뉴아이템 사이의 분리선으로 separator라고 부름
-* `JMenu`의 `addSeparator()`를 호출하여 삽입함
+* **특징**
+* 입출력 스트림 기본 단위 : 바이트
+* 단방향 스트림, 선입선출 구조
 
 
 
----
-
-### ❑ 실행 화면 설명 말풍선
-
-* **Screen, Edit, Source, Project, Run이 있는 가로 줄 전체:** 메뉴바(JMenuBar)
-* **Screen 항목:** 메뉴(JMenu)
-* **Load, Hide, ReShow, Exit 각각의 항목 (예시에서는 Hide 가리킴):** 메뉴아이템(JMenuItem)
-* **ReShow와 Exit 사이의 가로 선:** 분리선
-
-## JComboBox<E>
-
-### ❑ JComboBox<E>
-
-* 텍스트필드와 버튼, 그리고 드롭다운 리스트로 구성되는 콤보박스
-* 드롭다운 리스트에서 선택한 것이 텍스트필드에 나타남
+> **우측 본문 설명 상자:**
+> 자바 프로그램 개발자는 직접 입력 장치에서 읽지 않고 입력 스트림을 통해 읽으며, 스크린 등 출력 장치에 직접 출력하지 않고 출력 스트림에 출력하면 된다.
 
 ---
 
-### ❑ 콤보박스 생성
+### ❑ 하단 도식도 설명
 
-* `JComboBox<E>()` 빈 콤보박스
-* `JComboBox<E>(Vector listData)` 벡터로부터 아이템을 공급받는 콤보박스
-* `JComboBox<E>(Object [] listData)` 배열로부터 아이템을 공급받는 콤보박스
+* **입력 흐름 (위쪽):** * 키보드(입력 장치 '7', 's', 'l') 및 파일 ➔ 데이터(`0 0 1 1 1 1 1 1`) ➔ **입력 스트림** ➔ 데이터(`0 0 1 1 0 0 0 1`) ➔ 자바 응용 프로그램
+* **입력 스트림 말풍선:** 입력 장치와 응용 프로그램을 연결하는 객체
 
----
 
-### ❑ 예) 텍스트를 아이템으로 가진 콤보박스 생성
+* **출력 흐름 (아래쪽):** * 자바 응용 프로그램 ➔ 데이터(`0 0 1 0 1 0 1 1`) ➔ **출력 스트림** ➔ 데이터(`0 1 0 0 0 0 1 1`) ➔ 모니터(출력 장치) 및 파일
+* **출력 스트림 말풍선:** 출력 장치와 응용 프로그램을 연결하는 객체
+
+## 확인 다이얼로그
+
+### ❑ 확인 다이얼로그 - JOptionPane.showConfirmDialog()
+
+* 사용자로부터 Yes/No 응답을 입력 받는 다이얼로그
 
 ```java
-String [] fruits = {"apple", "banana", "kiwi", 
-                    "mango", "pear", "peach", 
-                    "berry", "strawberry", "blackberry"};
-JComboBox<String> combo = new JComboBox<String>(fruits);
+static int JOptionPane.showConfirmDialog(Component parentComponent, Object msg, String title, int optionType)
 
 ```
 
-> **우측 화면 설명 말풍선:**
-> * **banana 표시 영역:** 텍스트필드
-> * **▼ 모양 영역:** 버튼
-> * **아래로 나열된 항목 영역:** 드롭다운 리스트
+* **`parentComponent`:** 다이얼로그의 부모 컴포넌트로서 다이얼로그가 출력되는 영역의 범위 지정을 위해 사용(예: 프레임). `null`이면 전체 화면 중앙에 출력
+* **`msg`:** 다이얼로그 메시지
+* **`title`:** 다이얼로그 타이틀
+* **`optionType`:** 다이얼로그 옵션 종류 지정
+* `YES_NO_OPTION`, `YES_NO_CANCEL_OPTION`, `OK_CANCEL_OPTION`
+
+
+* **리턴 값:** 사용자가 선택한 옵션 종류
+* `YES_OPTION`, `NO_OPTION`, `CANCEL_OPTION`, `OK_OPTION`, `CLOSED_OPTION`
+
+
+
+---
+
+### ❑ 실행 예시 및 소스 코드
+
+> **좌측 다이얼로그 예시 화면 설명:**
+> * 타이틀이 'Confirm'이고 메시지가 '계속할 것입니까?'인 창에 [예(Y)], [아니오(N)] 버튼이 있음.
+> * **[예(Y)], [아니오(N)] 버튼 영역 말풍선:** 옵션 (`JOptionPane.YES_NO_OPTION`)
 > 
->
+> 
 
-## JList<E>
-
-### ❑ JList<E>
-
-* 하나 이상의 아이템을 보여주고 아이템을 선택하도록 하는 리스트
-* **Java 7부터 제네릭 리스트로 바뀜**
-* `<E>`에 지정된 타입의 객체만 저장하는 리스트
-
-
-* `JScrollPane`에 `JList<E>`를 삽입하여 스크롤 가능
-
----
-
-### ❑ 리스트 생성
-
-* `JList<E>()` 빈 리스트
-* `JList<E>(Vector listData)` 벡터로부터 아이템을 공급받는 리스트
-* `JList<E>(Object [] listData)` 배열로부터 아이템을 공급받는 리스트
-
----
-
-### ❑ 예) 9개의 과일 이름 문자열이 든 리스트 만들기
+**우측 소스 코드:**
 
 ```java
-String [] fruits = {"apple", "banana", "kiwi", "mango", "pear", 
-                    "peach", "berry", "strawberry", "blackberry"};
-JList<String> strList = new JList<String>(fruits);
+int result = JOptionPane.showConfirmDialog(null, "계속할 것입니까?", 
+                                          "Confirm", JOptionPane.YES_NO_OPTION);
+if(result == JOptionPane.CLOSED_OPTION) {
+    // 사용자가 "예", "아니오"의 선택 없이 다이얼로그 창을 닫은 경우
+}
+else if(result == JOptionPane.YES_OPTION) {
+    // 사용자가 "예"를 선택한 경우
+}
+else {
+    // 사용자가 "아니오"를 선택한 경우
+}
 
 ```
 
-> **우측 화면 설명:**
-> * `JList<String>`의 문자열 리스트 예시 화면 (apple, banana ... blackberry 항목이 나열되고 peach가 선택된 상태)
-> 
->
+## 메뉴아이템에 Action 이벤트 달기
+
+### ❑ 메뉴아이템을 클릭하면 Action 발생
+
+* 메뉴아이템은 사용자로부터의 지시나 명령을 받는데 사용
+* `ActionListener` 인터페이스로 리스너 작성
+* 각 메뉴아이템마다 이벤트 리스너 설정
 
 ---
 
-## JRadioButton으로 라디오버튼 만들기
-
-### ❑ JRadioButton의 용도
-
-* 버튼 그룹을 형성하고, 그룹에 속한 버튼 중 하나만 선택되는 라디오버튼
-* **체크박스와의 차이점**
-* 체크 박스는 각각 선택/해제가 가능하지만, 라디오버튼은 그룹에 속한 버튼 중 하나만 선택
-
-
-
-> **우측 화면 설명 말풍선:**
-> * **사과, 배 영역:** 버튼 그룹에 속한 라디오버튼들
-> * **체리 이미지 영역:** 이미지 라디오버튼
-> 
-> 
-
----
-
-### ❑ 라디오버튼 생성
-
-* `JRadioButton()` 빈 라디오버튼
-* `JRadioButton(Icon image)` 이미지 라디오버튼
-* `JRadioButton(Icon image, boolean selected)` 이미지 라디오버튼
-* `JRadioButton(String text)` 문자열 라디오버튼
-* `JRadioButton(String text, boolean selected)` 문자열 라디오버튼
-* `JRadioButton(String text, Icon image)` 문자열과 이미지를 가진 라디오버튼
-* `JRadioButton(String text, Icon image, boolean selected)` 문자열과 이미지를 가진 라디오버튼
-* `selected`: `true`면 선택 상태로 초기화
-
-## JCheckBox로 체크박스 만들기
-
-### ❑ JCheckBox의 용도
-
-* 선택(selected)과 비선택(deselected) 두 상태만 가지는 버튼
-
-> **우측 화면 설명 말풍선:**
-> * **사과, 배 텍스트 영역:** 체크박스 문자열
-> * **체리 이미지 영역:** 체크박스 이미지
-> 
-> 
-
----
-
-### ❑ 체크박스 생성
-
-* `JCheckBox()` 빈 체크박스
-* `JCheckBox(Icon image)` 이미지 체크박스
-* `JCheckBox(Icon image, boolean selected)` 이미지 체크박스
-* `JCheckBox(String text, Icon image)` 문자열과 이미지를 가진 체크박스
-* `JCheckBox(String text, Icon image, boolean selected)` 문자열과 이미지 체크박스
-* `selected`: `true`면 선택 상태로 초기화
-
-
-
----
-
-### ❑ 문자열을 가진 체크박스 생성 예
+### ❑ 예) Load 메뉴아이템에 Action 리스너를 작성하는 경우
 
 ```java
-JCheckBox apple = new JCheckBox("사과"); // "사과" 체크박스 생성
-JCheckBox pear = new JCheckBox("배", true); // 선택 상태의 "배" 체크박스 생성
+JMenuItem item = new JMenuItem("Load");
+item.addActionListener(new MenuActionListener()); // 메뉴아이템에 Action 리스너 설정
+screenMenu.add(item);
+
+class MenuActionListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        // 사용자가 Load 메뉴아이템을 선택하는 경우 처리할 작업 구현
+        ...
+    }
+}
 
 ```
 
-## 예제 10-5 : ItemEvent를 활용하여 체크박스로 가격 합산 응용
+## 예제 10-11 : 메뉴 만들기
 
-그림과 같이 사과, 배, 체리 체크박스를 만들고, 사용자가 과일을 선택하면 선택된 과일의 가격을 합산하여 출력하는 프로그램을 작성하라.
+그림과 같이 Screen, Edit, Source, Project, Run의 5개 메뉴를 가지며, Screen 메뉴에만 4개의 메뉴아이템과 분리선(separator)을 가지도록 프로그램을 작성하라.
 
 ---
 
-### 실행 화면 설명 (우측 말풍선)
-
-* **체크박스 영역 (사과, 배, 체리):** 3 개의 체크박스
-* **하단 결과 메시지 영역 ("현재 20100원 입니다."):** 계산 합을 출력하는 레이블
-
-## 예제 10-1 : 스윙 컴포넌트의 공통 기능, JComponent의 메소드
-
-### 1. 소스 코드 (좌측)
+### 1. 소스 코드 (우측)
 
 ```java
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
-public class JComponentEx extends JFrame {
-    public JComponentEx() {
-        super("JComponent의 공통 메소드 예제");
-        Container c = getContentPane();
-        c.setLayout(new FlowLayout());
-        
-        JButton b1 = new JButton("Magenta/Yellow Button");
-        JButton b2 = new JButton("Disabled Button ");
-        JButton b3 = new JButton("getX(), getY()");
-        
-        b1.setBackground(Color.YELLOW);
-        b1.setForeground(Color.MAGENTA);
-        b1.setFont(new Font("Arial", Font.ITALIC, 20));
-        
-        b2.setEnabled(false);
-        
-        b3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JButton b = (JButton)e.getSource();
-                setTitle(b.getX() + "," + b.getY());
-            }
-        });
-        
-        c.add(b1); c.add(b2); c.add(b3);
-        setSize(260, 200); setVisible(true);
+public class MenuEx extends JFrame {
+    public MenuEx() {
+        setTitle("Menu 만들기 예제");
+        createMenu(); // 메뉴 생성, 프레임에 삽입
+        setSize(250, 200);
+        setVisible(true);
     }
-    
+
+    public void createMenu() {
+        JMenuBar mb = new JMenuBar();
+        JMenu screenMenu = new JMenu("Screen");
+
+        screenMenu.add(new JMenuItem("Load"));
+        screenMenu.add(new JMenuItem("Hide"));
+        screenMenu.add(new JMenuItem("ReShow"));
+        screenMenu.addSeparator(); // 분리선 삽입
+        screenMenu.add(new JMenuItem("Exit"));
+
+        mb.add(screenMenu);
+        mb.add(new JMenu("Edit"));
+        mb.add(new JMenu("Source"));
+        mb.add(new JMenu("Project"));
+        mb.add(new JMenu("Run"));
+        
+        setJMenuBar(mb); // 메뉴바를 프레임에 붙임. 비로소 메뉴가 보인다.
+    }
+
     public static void main(String[] args) {
-        new JComponentEx();
+        new MenuEx();
     }
 }
 
@@ -222,58 +155,11 @@ public class JComponentEx extends JFrame {
 
 ---
 
-### 2. 실행 화면 설명 (우측)
+### 2. 말풍선 설명 (우측 하단)
 
-#### **초기 상태 (위쪽 화면)**
+* **`setJMenuBar(mb);` 코드 가리킴:** 메뉴바를 프레임에 붙임. 비로소 메뉴가 보인다.
 
-* **Magenta/Yellow Button 말풍선:** "Arial" 로 20픽셀 크기의 폰트
-* **Disabled Button 말풍선:** 비활성 버튼
-
-#### **getX(), getY() 버튼이 클릭된 상태 (아래쪽 화면)**
-
-* **타이틀바(68,77) 빨간 원:** 클릭하면 타이틀바에 버튼의 좌표 출력
-
-## 다른 컴포넌트의 메소드
-
-# 앞서 살펴본 바와 같이 JComponent의 메소드를 상속 받기 때문에 이 장에서 설명하는 컴포넌트의 사용법의 거의 동일합니다.
-
-# 다음 예를 비교해 보면 알 수 있듯이 JButton, JCheckBox, JRadioButton, JTextField, JTextArea, JList, JComboBox 모두 사용하는 메소드는 JLabel과 유사합니다.
-
-# 사용하고 싶은 컴포넌트를 골라 예제10-1을 참고하여 코드를 작성하면 됩니다.
-
----
-
-### JLabel
-
-* `JLabel()` 빈 레이블
-* `JLabel(Icon image)` 이미지 레이블
-* `JLabel(String text)` 문자열 레이블
-* `JLabel(String text, Icon image, int hAlign)` 문자열과 이미지 모두 가진 레이블
-* *hAlign: 수평 정렬 값으로 SwingConstants.LEFT, SwingConstants.RIGHT, SwingConstants.CENTER 중 하나
-
-
-
----
-
-### JButton
-
-* `JButton()` 빈 버튼
-* `JButton(Icon image)` 이미지 버튼
-* `JButton(String text)` 문자열 버튼
-* `JButton(String text, Icon image)` 문자열과 이미지 모두 가진 버튼
-
----
-
-### JCheckBox
-
-* `JCheckBox()` 빈 체크박스
-* `JCheckBox(Icon image)` 이미지 체크박스
-* `JCheckBox(Icon image, boolean selected)` 이미지 체크박스
-* `JCheckBox(String text, Icon image)` 문자열과 이미지를 가진 체크박스
-* `JCheckBox(String text, Icon image, boolean selected)` 문자열과 이미지 체크박스
-* *selected: true면 선택 상태로 초기화
-
-``0605
+또한 모든 앱의 전체 기능을 이용하려면 [Gemini 앱 활동](https://myactivity.google.com/product/gemini)을 사용 설정하세요.
 
 ## 스윙 컴포넌트의 공통 메소드, JComponent의 메소드
 
@@ -587,11 +473,15 @@ void keyTyped(KeyEvent e) {
 * **컴포넌트에 키 이벤트 리스너 달기**
 ```java
 component.addKeyListener(myKeyListener);
+<<<<<<< HEAD
 
 ```0527
 
 
 =======
+=======
+``0527
+>>>>>>> 2079178006e0233b835c3d2f83e98c7e08dba694
 ## 예제 9-4 : 마우스 이벤트 리스너 작성 연습 - 마우스로 문자열 이동시키기
 
 * 아래 실행 화면과 같이 프레임의 임의의 위치에 마우스 버튼을 누르면 마우스 포인터가 있는 위치에 "Hello" 문자열을 출력하는 프로그램을 작성하라.
