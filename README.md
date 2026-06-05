@@ -1,6 +1,462 @@
 # java-2
 # 202530116송아인 
 
+## 예제 10-12 : FileWriter를 이용하여 파일 쓰기
+
+키보드로부터 텍스트를 입력받아 `c:\Temp\test.txt` 파일에 저장하는 프로그램을 작성하라.
+
+---
+
+### 1. 소스 코드 (우측)
+
+```java
+import java.io.*;
+import java.util.Scanner;
+
+public class FileWriterEx {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        FileWriter fout = null;
+        int c;
+        try {
+            fout = new FileWriter("c:\\Temp\\test.txt");
+            while(true) {
+                String line = scanner.nextLine();
+                if(line.length() == 0) // 빈 줄이 입력되면 입력 끝
+                    break;
+                fout.write(line, 0, line.length());
+                fout.write("\r\n", 0, 2); // 한 줄 띄기 위해 \r\n 기록
+            }
+            fout.close();
+        } catch (IOException e) {
+            System.out.println("입출력 오류");
+        }
+        scanner.close();
+    }
+}
+
+```
+
+---
+
+### 2. 실행 화면 및 말풍선 설명 (우측 하단)
+
+#### **실행 화면**
+
+```text
+이름: 황기태
+학과: 컴퓨터공학
+_
+
+```
+
+#### **말풍선 설명**
+
+* **마지막 빈 줄(`_`) 영역:** 엔터 키만 치면 프로그램 종료
+* **`fout.write("\r\n", 0, 2);` 코드 영역:** 엔터 키(`\r\n`)를 파일에 기록하여 줄바꿈 처리
+
+또한 모든 앱의 전체 기능을 이용하려면 [Gemini 앱 활동](https://myactivity.google.com/product/gemini)을 사용 설정하세요.
+
+## 문자 스트림으로 텍스트 파일 쓰기
+
+### ❑ 텍스트 파일에 쓰기 위해 문자 스트림 `FileWriter` 클래스 이용
+
+#### **1. 파일 출력 스트림 생성(파일 열기)**
+
+* 스트림을 생성하고 파일을 열어 스트림과 연결
+
+```java
+FileWriter fout = new FileWriter("c:\\WWTemp\\WWtest.txt");
+
+```
+
+*(※ 실제 자바 코드 작성 시 윈도우 파일 경로는 `"c:\\Temp\\test.txt"`와 같이 이스케이프 문자(`\\`)를 활용하여 표현합니다.)*
+
+#### **2. 파일 쓰기**
+
+* `write()`로 문자 하나씩 파일에 기록
+
+```java
+fout.write('A'); // 문자 'A'를 파일에 기록
+
+```
+
+* **블록 단위로 쓰기 가능**
+
+```java
+char [] buf = new char [1024];
+fout.write(buf, 0, buf.length); // buf[0]부터 버퍼 크기만큼 쓰기
+
+```
+
+#### **3. 스트림 닫기**
+
+* `close()`로 스트림 닫기
+
+```java
+fout.close(); // 스트림 닫기. 더 이상 스트림에 기록할 수 없다.
+
+```
+
+## FileReader의 생성자와 주요 메소드
+
+### ❑ 생성자
+
+| 생성자 | 설명 |
+| --- | --- |
+| **`FileReader(File file)`** | `file`에 지정된 파일로부터 읽는 `FileReader` 생성 |
+| **`FileReader(String name)`** | `name` 이름의 파일로부터 읽는 `FileReader` 생성 |
+
+---
+
+### ❑ 메소드
+
+| 메소드 | 설명 |
+| --- | --- |
+| **`int read()`** | 한 개의 문자를 읽어 정수형으로 리턴 |
+| **`int read(char[] cbuf)`** | 최대 `cbuf` 배열의 크기만큼 문자들을 읽어 `cbuf` 배열에 저장. 만일 읽는 도중 EOF를 만나면 실제 읽은 문자 개수 리턴 |
+| **`int read(char[] cbuf, int off, int len)`** | 최대 `len` 크기만큼 읽어 `cbuf` 배열의 `off`부터 저장. 읽는 도중 EOF를 만나면 실제 읽은 문자 개수 리턴 |
+| **`String getEncoding()`** | 스트림이 사용하는 문자 집합의 이름 리턴 |
+| **`void close()`** | 입력 스트림을 닫고 관련된 시스템 자원 해제 |
+
+## 파일 입출력과 예외 처리
+
+### ❑ 파일 입출력 동안 예외 발생 가능
+
+* **스트림 생성 동안 : `FileNotFoundException` 발생 가능**
+* 파일의 경로명이 틀리거나, 디스크의 고장 등으로 파일을 열 수 없음
+
+
+```java
+FileReader fin = new FileReader("c:\\test.txt"); // FileNotFoundException 발생 가능
+
+```
+
+
+* **파일 읽기, 쓰기, 닫기를 하는 동안 : `IOException` 발생 가능**
+* 디스크 오동작, 파일이 중간에 깨진 경우, 디스크 공간이 모자라서 파일 입출력 불가
+
+
+```java
+int c = fin.read(); // IOException 발생 가능
+
+```
+
+
+
+---
+
+### ❑ try-catch 블록 반드시 필요
+
+* 자바 컴파일러의 강제 사항
+
+```java
+try {
+    FileReader fin = new FileReader("c:\\test.txt");
+    ...
+    int c = fin.read();
+    ...
+    fin.close();
+} catch(FileNotFoundException e) {
+    System.out.println("파일을 열 수 없음");
+} catch(IOException e) {
+    System.out.println("입출력 오류");
+}
+
+```
+
+> **하단 말풍선 설명 (try-catch 코드 가리킴):**
+> 생략 가능. `FileNotFoundException`은 `IOException`을 상속받기 때문에 아래의 catch 블록 하나만 있으면 됨
+
+## 문자 스트림으로 텍스트 파일 읽기
+
+### ❑ 텍스트 파일을 읽기 위해 문자 스트림 `FileReader` 클래스 이용
+
+#### **1. 파일 입력 스트림 생성(파일 열기)**
+
+* 스트림을 생성하고 파일을 열어 스트림과 연결
+
+```java
+FileReader fin = new FileReader("c:\\test.txt");
+
+```
+
+*(※ 이미지 내 오타 `c:WWtest.txt`는 일반적인 윈도우 경로 표현인 `c:\\test.txt`를 의도한 것으로 보입니다.)*
+
+#### **2. 파일 읽기**
+
+* `read()`로 문자 하나씩 읽기
+
+```java
+int c;
+while((c = fin.read()) != -1) { // 문자를 c에 읽음. 파일 끝까지 반복
+    System.out.print((char)c); // 문자 c 화면에 출력
+}
+
+```
+
+#### **3. 스트림 닫기**
+
+* 스트림이 더 이상 필요 없으면 닫아야 함. 닫힌 스트림에서는 읽을 수 없음
+* `close()`로 스트림 닫기
+
+```java
+fin.close();
+
+```
+
+## 스트림 연결
+
+### ❑ 여러 개의 스트림을 연결하여 사용할 수 있음
+
+* **예) 키보드에서 문자를 입력받기 위해 `System.in`과 `InputStreamReader`를 연결한 코드**
+
+```java
+InputStreamReader rd = new new InputStreamReader(System.in);
+
+while(true) {
+    int c = rd.read(); // 입력 스트림으로부터 키 입력. c는 입력된 키 문자 값
+    if(c == -1) // 입력 스트림의 끝을 만나는 경우
+        break; // 입력 종료
+}
+
+```
+
+---
+
+### ❑ 하단 도식도 설명
+
+* **입력 단계:** 키보드 입력 (`7`, `s`, `1`)
+* **바이트 입력 스트림:** `System.in`을 거치며 바이트 스트림 데이터(`1 0 1 0 1 1 0 1`)로 변환
+* **문자 입력 스트림:** `InputStreamReader`인 `rd`를 거치며 다시 문자 스트림 데이터(`'7'`, `'s'`, `'1'`)로 변환
+* **최종 목적지:** 자바 응용 프로그램으로 전달
+
+## JDK의 문자 스트림 클래스 계층 구조
+
+### ❑ Reader 계층 구조 (입력 스트림)
+
+* **Reader** (최상위 클래스)
+* ↳ **InputStreamReader**
+* ↳ **FileReader**
+
+
+* ↳ **BufferedReader**
+* ↳ **LineNumberReader**
+
+
+* ↳ **FilterReader**
+* ↳ **PushbackReader**
+
+
+* ↳ **CharArrayReader**
+* ↳ **PipedReader**
+* ↳ **StringReader**
+
+
+
+---
+
+### ❑ Writer 계층 구조 (출력 스트림)
+
+* **Writer** (최상위 클래스)
+* ↳ **OutputStreamWriter**
+* ↳ **FileWriter**
+
+
+* ↳ **BufferedWriter**
+* ↳ **FilterWriter**
+* ↳ **CharArrayWriter**
+* ↳ **PipedWriter**
+* ↳ **StringWriter**
+
+
+
+---
+
+### ❑ 하단 설명 말풍선
+
+* **`StringReader`와 `StringWriter`를 가리키는 말풍선:** 클래스 이름이 공통적으로 Reader/Writer로 끝남
+
+## 자바의 입출력 스트림 종류
+
+### ❑ 문자 스트림
+
+* 문자만 입출력하는 스트림
+* 문자가 아닌 바이너리 데이터는 스트림에서 처리하지 못함
+* 문자가 아닌 데이터를 문자 스트림으로 출력하면 깨진 기호가 출력
+* 바이너리 파일을 문자 스트림으로 읽으면 읽을 수 없는 바이트가 생겨서 오류 발생
+* 예) 텍스트 파일을 읽는 입력 스트림
+
+
+
+---
+
+### ❑ 바이트 스트림
+
+* 입출력 데이터를 단순 바이트의 흐름으로 처리
+* 문자 데이터 든 바이너리 데이터든 상관없이 처리 가능
+* 예) 바이너리 파일을 읽는 입력 스트림
+
+## 자바의 입출력 스트림
+
+### ❑ 자바의 입출력 스트림
+
+* **입출력 장치와 자바 응용 프로그램 연결**
+* **입력 스트림 :** 입력 장치로부터 자바 프로그램으로 데이터를 전달하는 객체
+* **출력 스트림 :** 자바 프로그램에서 출력 장치로 데이터를 보내는 객체
+
+
+* **특징**
+* 입출력 스트림 기본 단위 : 바이트
+* 단방향 스트림, 선입선출 구조
+
+
+
+> **우측 본문 설명 상자:**
+> 자바 프로그램 개발자는 직접 입력 장치에서 읽지 않고 입력 스트림을 통해 읽으며, 스크린 등 출력 장치에 직접 출력하지 않고 출력 스트림에 출력하면 된다.
+
+---
+
+### ❑ 하단 도식도 설명
+
+* **입력 흐름 (위쪽):** * 키보드(입력 장치 '7', 's', 'l') 및 파일 ➔ 데이터(`0 0 1 1 1 1 1 1`) ➔ **입력 스트림** ➔ 데이터(`0 0 1 1 0 0 0 1`) ➔ 자바 응용 프로그램
+* **입력 스트림 말풍선:** 입력 장치와 응용 프로그램을 연결하는 객체
+
+
+* **출력 흐름 (아래쪽):** * 자바 응용 프로그램 ➔ 데이터(`0 0 1 0 1 0 1 1`) ➔ **출력 스트림** ➔ 데이터(`0 1 0 0 0 0 1 1`) ➔ 모니터(출력 장치) 및 파일
+* **출력 스트림 말풍선:** 출력 장치와 응용 프로그램을 연결하는 객체
+
+## 확인 다이얼로그
+
+### ❑ 확인 다이얼로그 - JOptionPane.showConfirmDialog()
+
+* 사용자로부터 Yes/No 응답을 입력 받는 다이얼로그
+
+```java
+static int JOptionPane.showConfirmDialog(Component parentComponent, Object msg, String title, int optionType)
+
+```
+
+* **`parentComponent`:** 다이얼로그의 부모 컴포넌트로서 다이얼로그가 출력되는 영역의 범위 지정을 위해 사용(예: 프레임). `null`이면 전체 화면 중앙에 출력
+* **`msg`:** 다이얼로그 메시지
+* **`title`:** 다이얼로그 타이틀
+* **`optionType`:** 다이얼로그 옵션 종류 지정
+* `YES_NO_OPTION`, `YES_NO_CANCEL_OPTION`, `OK_CANCEL_OPTION`
+
+
+* **리턴 값:** 사용자가 선택한 옵션 종류
+* `YES_OPTION`, `NO_OPTION`, `CANCEL_OPTION`, `OK_OPTION`, `CLOSED_OPTION`
+
+
+
+---
+
+### ❑ 실행 예시 및 소스 코드
+
+> **좌측 다이얼로그 예시 화면 설명:**
+> * 타이틀이 'Confirm'이고 메시지가 '계속할 것입니까?'인 창에 [예(Y)], [아니오(N)] 버튼이 있음.
+> * **[예(Y)], [아니오(N)] 버튼 영역 말풍선:** 옵션 (`JOptionPane.YES_NO_OPTION`)
+> 
+> 
+
+**우측 소스 코드:**
+
+```java
+int result = JOptionPane.showConfirmDialog(null, "계속할 것입니까?", 
+                                          "Confirm", JOptionPane.YES_NO_OPTION);
+if(result == JOptionPane.CLOSED_OPTION) {
+    // 사용자가 "예", "아니오"의 선택 없이 다이얼로그 창을 닫은 경우
+}
+else if(result == JOptionPane.YES_OPTION) {
+    // 사용자가 "예"를 선택한 경우
+}
+else {
+    // 사용자가 "아니오"를 선택한 경우
+}
+
+```
+
+## 메뉴아이템에 Action 이벤트 달기
+
+### ❑ 메뉴아이템을 클릭하면 Action 발생
+
+* 메뉴아이템은 사용자로부터의 지시나 명령을 받는데 사용
+* `ActionListener` 인터페이스로 리스너 작성
+* 각 메뉴아이템마다 이벤트 리스너 설정
+
+---
+
+### ❑ 예) Load 메뉴아이템에 Action 리스너를 작성하는 경우
+
+```java
+JMenuItem item = new JMenuItem("Load");
+item.addActionListener(new MenuActionListener()); // 메뉴아이템에 Action 리스너 설정
+screenMenu.add(item);
+
+class MenuActionListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        // 사용자가 Load 메뉴아이템을 선택하는 경우 처리할 작업 구현
+        ...
+    }
+}
+
+```
+
+## 예제 10-11 : 메뉴 만들기
+
+그림과 같이 Screen, Edit, Source, Project, Run의 5개 메뉴를 가지며, Screen 메뉴에만 4개의 메뉴아이템과 분리선(separator)을 가지도록 프로그램을 작성하라.
+
+---
+
+### 1. 소스 코드 (우측)
+
+```java
+import javax.swing.*;
+
+public class MenuEx extends JFrame {
+    public MenuEx() {
+        setTitle("Menu 만들기 예제");
+        createMenu(); // 메뉴 생성, 프레임에 삽입
+        setSize(250, 200);
+        setVisible(true);
+    }
+
+    public void createMenu() {
+        JMenuBar mb = new JMenuBar();
+        JMenu screenMenu = new JMenu("Screen");
+
+        screenMenu.add(new JMenuItem("Load"));
+        screenMenu.add(new JMenuItem("Hide"));
+        screenMenu.add(new JMenuItem("ReShow"));
+        screenMenu.addSeparator(); // 분리선 삽입
+        screenMenu.add(new JMenuItem("Exit"));
+
+        mb.add(screenMenu);
+        mb.add(new JMenu("Edit"));
+        mb.add(new JMenu("Source"));
+        mb.add(new JMenu("Project"));
+        mb.add(new JMenu("Run"));
+        
+        setJMenuBar(mb); // 메뉴바를 프레임에 붙임. 비로소 메뉴가 보인다.
+    }
+
+    public static void main(String[] args) {
+        new MenuEx();
+    }
+}
+
+```
+
+---
+
+### 2. 말풍선 설명 (우측 하단)
+
+* **`setJMenuBar(mb);` 코드 가리킴:** 메뉴바를 프레임에 붙임. 비로소 메뉴가 보인다.
+
+또한 모든 앱의 전체 기능을 이용하려면 [Gemini 앱 활동](https://myactivity.google.com/product/gemini)을 사용 설정하세요.
+
+``0605
+
 
 
 ## 자바의 입출력 스트림
